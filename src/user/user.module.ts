@@ -6,21 +6,9 @@ import { User } from './entities/user.entity';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  controllers: [
-    UserController
-  ],
-  providers: [
-    UserService
-  ],
-  imports: [
-    PassportModule,
-    TypeOrmModule.forFeature([
-      User
-    ])
-  ],
-  exports: [
-    UserService,
-    TypeOrmModule
-  ]
+  controllers: [UserController],
+  providers: [UserService],
+  imports: [PassportModule, TypeOrmModule.forFeature([User])],
+  exports: [UserService, TypeOrmModule],
 })
-export class UserModule { }
+export class UserModule {}

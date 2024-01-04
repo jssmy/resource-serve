@@ -1,5 +1,5 @@
 export interface AccessTokenPayload {
-    id?: string;
-    uid: string;
-    name: string;
+  id?: string;
+  uid: string;
+  name: string;
 }

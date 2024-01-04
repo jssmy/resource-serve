@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateTokenDto } from './dto/create-token.dto';
 import { UpdateTokenDto } from './dto/update-token.dto';
 import { UserService } from '../user/user.service';
@@ -16,7 +20,6 @@ import { RefreshToken } from './entities/refresh-token.entity';
 
 @Injectable()
 export class AuthService {
-
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -25,24 +28,20 @@ export class AuthService {
     @InjectRepository(RefreshToken)
     private readonly refreshRepository: Repository<RefreshToken>,
     private readonly jwtService: JwtService,
-    private readonly config: ConfigService
-  ) {
-
-  }
+    private readonly config: ConfigService,
+  ) {}
 
   async attemp(email: string, password: string) {
     email = email.toLocaleLowerCase();
-    const user = await this.userRepository.findOne(
-      {
-        where: { email },
-        select: {
-          id: true,
-          name: true,
-          password: true,
-          state: true
-        }
-      }
-    );
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: {
+        id: true,
+        name: true,
+        password: true,
+        state: true,
+      },
+    });
 
     if (!user) {
       throw new NotFoundException('Credentials are incorrect');
@@ -56,7 +55,6 @@ export class AuthService {
 
     if (!user.state) {
       throw new UnauthorizedException('User is inactive');
-
     }
 
     // if (!user.accountValidated) {
@@ -65,62 +63,58 @@ export class AuthService {
     const accessTokenPayload: AccessTokenPayload = {
       name: user.name,
       uid: user.id,
-      id: Helper.uuid()
+      id: Helper.uuid(),
     };
 
     const refreshTokenPayload: RefreshTokenPayload = {
       aid: accessTokenPayload.id,
-      id: Helper.uuid()
+      id: Helper.uuid(),
     };
 
     const token = await this.getAccessToken(accessTokenPayload);
     const refreshToken = await this.getRefreshToken(refreshTokenPayload);
     return {
       token,
-      refreshToken
+      refreshToken,
     };
-
   }
 
-
   async refreshToken(refresh: string, user: User) {
-    
     const accessTokenPayload: AccessTokenPayload = {
       name: user.name,
       uid: user.id,
-      id: Helper.uuid()
+      id: Helper.uuid(),
     };
 
     const refreshTokenPayload: RefreshTokenPayload = {
       aid: accessTokenPayload.id,
-      id: Helper.uuid()
+      id: Helper.uuid(),
     };
 
     const token = await this.getAccessToken(accessTokenPayload);
     const refreshToken = await this.getRefreshToken(refreshTokenPayload);
 
-    const { aid, id }: RefreshTokenPayload = this.jwtService.decode(refresh, { json: true });
+    const { aid, id }: RefreshTokenPayload = this.jwtService.decode(refresh, {
+      json: true,
+    });
     this.refreshRepository.update(id, { revoked: true });
     this.tokenRepository.update(aid, { revoked: true });
 
     return {
       token,
-      refreshToken
-    }
-
+      refreshToken,
+    };
   }
 
-
   private async getAccessToken(payload: AccessTokenPayload) {
-    const tokenSign = this.jwtService.sign(payload,
-      {
-        secret: this.config.get('JWT_TOKEN_SECRET'),
-        expiresIn: this.config.get('JWT_TOKEN_EXPIRE')
-      });
+    const tokenSign = this.jwtService.sign(payload, {
+      secret: this.config.get('JWT_TOKEN_SECRET'),
+      expiresIn: this.config.get('JWT_TOKEN_EXPIRE'),
+    });
 
     const token = this.tokenRepository.create({
       id: payload.id,
-      userId: payload.uid
+      userId: payload.uid,
     });
 
     await this.tokenRepository.save(token);
@@ -131,12 +125,12 @@ export class AuthService {
   private async getRefreshToken(payload: RefreshTokenPayload) {
     const refreshSing = this.jwtService.sign(payload, {
       secret: this.config.get('JWT_REFRESH_TOKEN_SECRET'),
-      expiresIn: this.config.get('JWT_REFRESH_TOKEN_EXPIRE')
+      expiresIn: this.config.get('JWT_REFRESH_TOKEN_EXPIRE'),
     });
 
     const refresh = this.refreshRepository.create({
       id: payload.id,
-      accessTokenId: payload.aid
+      accessTokenId: payload.aid,
     });
 
     await this.refreshRepository.save(refresh);

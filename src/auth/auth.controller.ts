@@ -1,22 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseGuards, Req, Header, Headers } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Headers,
+} from '@nestjs/common';
 import { CreateTokenDto } from './dto/create-token.dto';
 import { UpdateTokenDto } from './dto/update-token.dto';
-import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { IncomingHttpHeaders } from 'http';
 import { GetUser } from 'src/user/decoratos/get-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService
-    ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('token')
   attemp(@Body() createTokenDto: CreateTokenDto) {
-    return this.authService.attemp(createTokenDto.email, createTokenDto.password);
+    return this.authService.attemp(
+      createTokenDto.email,
+      createTokenDto.password,
+    );
   }
 
   @Post('refresh-token')
@@ -25,9 +34,11 @@ export class AuthController {
     @Headers('authorization') refreshToken: string,
     @GetUser() user: User,
   ) {
-      return this.authService.refreshToken(refreshToken.replace('Bearer', '').trim(), user)
-   }
-
+    return this.authService.refreshToken(
+      refreshToken.replace('Bearer', '').trim(),
+      user,
+    );
+  }
 
   @Get()
   findAll() {

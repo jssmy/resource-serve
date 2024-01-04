@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserModule } from '../user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { AuthService } from './auth.service';
@@ -12,9 +12,7 @@ import { AccessToken } from './entities/access-token.entity';
 import { RefreshToken } from './entities/refresh-token.entity';
 
 @Module({
-  controllers: [
-    AuthController
-  ],
+  controllers: [AuthController],
   providers: [
     AuthService,
     AccessTokenStrategy,
@@ -22,17 +20,12 @@ import { RefreshToken } from './entities/refresh-token.entity';
     JwtService,
   ],
   imports: [
-    TypeOrmModule.forFeature([
-      AccessToken,
-      RefreshToken  
-    ]),
+    TypeOrmModule.forFeature([AccessToken, RefreshToken]),
     UserModule,
     ConfigModule,
     PassportModule,
     JwtModule,
   ],
-  exports: [
-    AccessTokenStrategy
-  ]
+  exports: [AccessTokenStrategy],
 })
-export class AuthModule { }
+export class AuthModule {}
