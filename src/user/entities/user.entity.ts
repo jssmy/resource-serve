@@ -18,7 +18,7 @@ export class User {
     @Column('varchar', { length: 255, select: false })
     password: string;
 
-    @Column('enum', { enum: UserGrant })
+    @Column('enum', { enum: UserGrant, default: UserGrant.ADMIN})
     userGrant: UserGrant;
 
 
