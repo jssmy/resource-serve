@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { databaseConfiguration } from './database/connection/db-auth.config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { databaseConfiguration } from './config/database/db-auth.config';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(databaseConfiguration()),
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { META_PERMISSION } from 'src/auth/decorators/set-permissions/set-permissions.decorator';
@@ -7,14 +12,13 @@ import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
-  constructor(
-    private readonly reflector: Reflector
-  ) { }
+  constructor(private readonly reflector: Reflector) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const roles: UserGrant[] = this.reflector.get(META_PERMISSION, context.getHandler()) || [];
+    const roles: UserGrant[] =
+      this.reflector.get(META_PERMISSION, context.getHandler()) || [];
 
     if (!roles.length) {
       return true;
@@ -27,6 +31,6 @@ export class PermissionsGuard implements CanActivate {
       throw new InternalServerErrorException('User was not setting');
     }
 
-    return roles.some(role => user.userGrant === role);
+    return roles.some((role) => user.userGrant === role);
   }
 }

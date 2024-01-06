@@ -26,6 +26,6 @@ import { RefreshToken } from './entities/refresh-token.entity';
     PassportModule,
     JwtModule,
   ],
-  exports: [AccessTokenStrategy],
+  exports: [AccessTokenStrategy, TypeOrmModule, PassportModule, JwtModule],
 })
 export class AuthModule {}

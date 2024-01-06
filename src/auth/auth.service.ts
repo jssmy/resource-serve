@@ -1,11 +1,11 @@
 import {
+  BadRequestException,
+  HttpException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateTokenDto } from './dto/create-token.dto';
 import { UpdateTokenDto } from './dto/update-token.dto';
-import { UserService } from '../user/user.service';
 import { ByCript } from 'src/commons/classes/bycript';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
@@ -17,6 +17,8 @@ import { Helper } from 'src/commons/classes/helper';
 import { AccessToken } from './entities/access-token.entity';
 import { RefreshTokenPayload } from './interfaces/refresh-token.payload';
 import { RefreshToken } from './entities/refresh-token.entity';
+import { AccountValidation } from 'src/user/entities/account-validation.entity';
+import { DateHelper } from 'src/commons/classes/date-helper';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +29,8 @@ export class AuthService {
     private readonly tokenRepository: Repository<AccessToken>,
     @InjectRepository(RefreshToken)
     private readonly refreshRepository: Repository<RefreshToken>,
+    @InjectRepository(AccountValidation)
+    private readonly accountRepository: Repository<AccountValidation>,
     private readonly jwtService: JwtService,
     private readonly config: ConfigService,
   ) {}
@@ -57,9 +61,10 @@ export class AuthService {
       throw new UnauthorizedException('User is inactive');
     }
 
-    // if (!user.accountValidated) {
-    //  throw new UnauthorizedException('Please validate your account');
-    // }
+    if (!user.accountValidated) {
+      throw new UnauthorizedException('Please validate your account');
+    }
+
     const accessTokenPayload: AccessTokenPayload = {
       name: user.name,
       uid: user.id,
@@ -138,6 +143,37 @@ export class AuthService {
     return refreshSing;
   }
 
+  async accountValidation(token: string) {
+    const account = await this.accountRepository.findOneBy({ token });
+
+    if (!account) {
+      throw new BadRequestException('Token is invalid');
+    }
+
+    const isExpiredToken =
+      DateHelper.date(account.expiresIn).diff(DateHelper.date(), 'hours') <= 0;
+
+    if (isExpiredToken) {
+      throw new HttpException('Token expired', 419);
+    }
+
+    if (account.revoked) {
+      return {
+        message: 'Account validated',
+      };
+    }
+
+    await this.accountRepository.update(account.token, { revoked: true });
+    await this.userRepository.update(account.userId, {
+      accountValidated: true,
+      accountValidatedDate: DateHelper.date().toDate(),
+    });
+
+    return {
+      message: 'Account validated',
+    };
+  }
+
   findAll() {
     return `This action returns all token`;
   }
@@ -147,7 +183,10 @@ export class AuthService {
   }
 
   update(id: number, updateTokenDto: UpdateTokenDto) {
-    return `This action updates a #${id} token`;
+    return {
+      id,
+      updateTokenDto,
+    };
   }
 
   remove(id: number) {

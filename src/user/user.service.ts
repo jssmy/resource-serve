@@ -11,6 +11,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { SuccessCreatedHandle } from 'src/commons/classes/success-crated-handle';
+import { MailService } from 'src/mail/mail.service';
+import { AccountValidation } from './entities/account-validation.entity';
+import { ConfigService } from '@nestjs/config';
+import { AccountValidationFactory } from './factory/account-validation.factory';
 
 @Injectable()
 export class UserService {
@@ -18,12 +22,17 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(AccountValidation)
+    private readonly accounRepository: Repository<AccountValidation>,
+    private readonly mail: MailService,
+    private readonly config: ConfigService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
       const user = new UserFactory(createUserDto).create();
       await this.userRepository.save(user);
+      this.accounValidation(user).finally();
       return new SuccessCreatedHandle(
         'Account created succesfull. Plese valid your account.',
       );
@@ -33,8 +42,24 @@ export class UserService {
     }
   }
 
+  private async accounValidation(user: User) {
+    const accountValidation = new AccountValidationFactory(
+      user.id,
+      this.config.get('MAIL_CONFIRM_EXPIRES_IN'),
+    ).create();
+
+    await this.accounRepository.save(accountValidation);
+    this.mail.sendMailAccountConfirmation({
+      to: user.email,
+      token: accountValidation.token,
+    });
+  }
+
   update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return {
+      id,
+      updateUserDto,
+    };
   }
 
   remove(id: string) {

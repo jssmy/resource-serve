@@ -40,6 +40,11 @@ export class AuthController {
     );
   }
 
+  @Get('account-validation/:token')
+  accounValidation(@Param('token') token: string) {
+    return this.authService.accountValidation(token);
+  }
+
   @Get()
   findAll() {
     return this.authService.findAll();
