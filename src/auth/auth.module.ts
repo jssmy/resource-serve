@@ -10,6 +10,7 @@ import { AuthController } from './auth.controller';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { AccessToken } from './entities/access-token.entity';
 import { RefreshToken } from './entities/refresh-token.entity';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   controllers: [AuthController],
@@ -25,6 +26,7 @@ import { RefreshToken } from './entities/refresh-token.entity';
     ConfigModule,
     PassportModule,
     JwtModule,
+    MailModule,
   ],
   exports: [AccessTokenStrategy, TypeOrmModule, PassportModule, JwtModule],
 })

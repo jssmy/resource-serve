@@ -3,22 +3,29 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   UseGuards,
   Headers,
 } from '@nestjs/common';
 import { CreateTokenDto } from './dto/create-token.dto';
-import { UpdateTokenDto } from './dto/update-token.dto';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/user/decoratos/get-user.decorator';
 import { User } from 'src/user/entities/user.entity';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { Auth } from './guards/auth';
+import { UserGrant } from 'src/commons/types/user-grant';
+import { RetryAccountValidationDto } from './dto/retry-account-validation.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post()
+  @Auth(UserGrant.ADMIN)
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.authService.register(createUserDto);
+  }
 
   @Post('token')
   attemp(@Body() createTokenDto: CreateTokenDto) {
@@ -45,23 +52,8 @@ export class AuthController {
     return this.authService.accountValidation(token);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTokenDto: UpdateTokenDto) {
-    return this.authService.update(+id, updateTokenDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post('retry-validation')
+  retryAccounValidation(@Body() retryDto: RetryAccountValidationDto) {
+    return this.authService.retryAccounValidation(retryDto.email);
   }
 }
