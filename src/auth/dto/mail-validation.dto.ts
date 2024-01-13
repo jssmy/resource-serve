@@ -1,6 +1,6 @@
 import { IsEmail, MaxLength, MinLength } from 'class-validator';
 
-export class RetryAccountValidationDto {
+export class MailValidationDto {
   @MaxLength(40)
   @MinLength(5)
   @IsEmail()

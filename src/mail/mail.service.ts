@@ -1,6 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class MailService {
@@ -8,12 +9,13 @@ export class MailService {
     private readonly mailService: MailerService,
     private readonly config: ConfigService,
   ) {}
-  sendMailAccountConfirmation({ to, token }) {
+
+  sendMailAccountConfirmation(user: User, token: string) {
     const url = `${this.config.get('MAIL_CONFIRM_URL')}/${token}`;
     this.mailService
       .sendMail({
-        to: to,
-        subject: 'Validación de cuenta',
+        to: user.email,
+        subject: 'Confirmación de cuenta',
         template: 'not-replay',
         context: {
           url,
@@ -22,12 +24,30 @@ export class MailService {
       .finally();
   }
 
-  sendMailResetPassword(email: string) {
+  sendMailResetPassword(user: User, token: string) {
+    const url = `${this.config.get('MAIL_RESET_PASSEWORD_URL')}/${token}`;
     this.mailService
       .sendMail({
-        to: email,
-        subject: 'Testing Nest Mailermodule with template ✔',
-        template: 'not-replay',
+        to: user.email,
+        subject: 'Cambiar contraseña',
+        template: 'reset-password',
+        context: {
+          username: user.name,
+          url,
+        },
+      })
+      .finally();
+  }
+
+  sendMailResetPasswordConfirmation(user: User) {
+    this.mailService
+      .sendMail({
+        to: user.email,
+        subject: 'Contraseña actualizada',
+        template: 'reset-password-confirm',
+        context: {
+          username: user.name,
+        },
       })
       .finally();
   }

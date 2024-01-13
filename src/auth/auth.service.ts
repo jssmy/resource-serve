@@ -18,14 +18,16 @@ import { Helper } from 'src/commons/classes/helper';
 import { AccessToken } from './entities/access-token.entity';
 import { RefreshTokenPayload } from './interfaces/refresh-token.payload';
 import { RefreshToken } from './entities/refresh-token.entity';
-import { AccountValidation } from 'src/user/entities/account-validation.entity';
+import { AccountValidation } from 'src/auth/entities/account-validation.entity';
 import { DateHelper } from 'src/commons/classes/date-helper';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { UserFactory } from 'src/user/factory/user.factory';
+import { UserFactory } from 'src/user/factories/user.factory';
 import { MailService } from 'src/mail/mail.service';
-import { AccountValidationFactory } from 'src/user/factory/account-validation.factory';
+import { AccountValidationFactory } from 'src/auth/factories/account-validation.factory';
 import { CreatedHandle } from 'src/commons/classes/created.handle';
 import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { ResetPasswordFactory } from './factories/reset-password.factory';
+import { ResetPassword } from './entities/reset-password.entity';
 
 @Injectable()
 export class AuthService {
@@ -40,6 +42,8 @@ export class AuthService {
     private readonly refreshRepository: Repository<RefreshToken>,
     @InjectRepository(AccountValidation)
     private readonly accountRepository: Repository<AccountValidation>,
+    @InjectRepository(ResetPassword)
+    private readonly resetRepository: Repository<ResetPassword>,
     private readonly jwtService: JwtService,
     private readonly config: ConfigService,
     private readonly mail: MailService,
@@ -184,6 +188,67 @@ export class AuthService {
     );
   }
 
+  async resetPasswordRequest(email: string) {
+    email = email.toLocaleLowerCase();
+    const user = await this.userRepository.findOne({
+      where: { state: true, accountValidated: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Email not found');
+    }
+
+    const resetPassword = new ResetPasswordFactory(
+      user.id,
+      this.config.get('MAIL_RESET_PASSWORD_EXPIRES_IN'),
+    ).create();
+    await this.resetRepository.save(resetPassword);
+    this.mail.sendMailResetPassword(user, resetPassword.token);
+
+    return new SuccessHandle(
+      `Mail reset password was send to ${email}, please check your inbox`,
+    );
+  }
+
+  async resetPassword(token: string, password: string) {
+    const resetPassword = await this.resetRepository.findOne({
+      where: { revoked: false, token },
+    });
+
+    if (!resetPassword) {
+      throw new NotFoundException('Token not found');
+    }
+
+    const isExpired =
+      DateHelper.date(resetPassword.expiresIn).diff(
+        DateHelper.date(),
+        'hours',
+      ) <= 0;
+
+    if (isExpired) {
+      throw new HttpException('Token is expired', 419);
+    }
+
+    const user = await this.userRepository.findOne({
+      where: { id: resetPassword.userId, state: true },
+      select: { password: true, id: true, email: true },
+    });
+
+    if (ByCript.compareSync(password, user.password)) {
+      throw new BadRequestException(
+        'New password must be different to current password',
+      );
+    }
+
+    await this.userRepository.update(
+      user.id,
+      new UserFactory({ password }).create(),
+    );
+    this.resetRepository.update(resetPassword.token, { revoked: true });
+    this.mail.sendMailResetPasswordConfirmation(user);
+    return new SuccessHandle('Password was reset');
+  }
+
   private async sendMailAccountValidation(user: User) {
     const accountValidation = new AccountValidationFactory(
       user.id,
@@ -191,10 +256,7 @@ export class AuthService {
     ).create();
 
     await this.accountRepository.save(accountValidation);
-    this.mail.sendMailAccountConfirmation({
-      to: user.email,
-      token: accountValidation.token,
-    });
+    this.mail.sendMailAccountConfirmation(user, accountValidation.token);
   }
 
   private async getAccessToken(payload: AccessTokenPayload) {

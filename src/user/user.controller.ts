@@ -17,7 +17,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Patch(':id')
-  
   update(
     @Param('id', ParseIntPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,

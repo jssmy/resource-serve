@@ -7,6 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { PasswordRegx } from 'src/commons/regx/password.regx';
 import { UserGrant } from 'src/commons/types/user-grant';
 
 export class CreateUserDto {
@@ -26,13 +27,10 @@ export class CreateUserDto {
 
   @MaxLength(15)
   @MinLength(8)
-  @Matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/,
-    {
-      message:
-        'Invalid password. Please include at least one lowercase letter, one uppercase letter, one digit, one special character, and ensure a minimum length of 8 characters.',
-    },
-  )
+  @Matches(PasswordRegx, {
+    message:
+      'Invalid password. Please include at least one lowercase letter, one uppercase letter, one digit, one special character, and ensure a minimum length of 8 characters.',
+  })
   password: string;
 
   @MaxLength(15)

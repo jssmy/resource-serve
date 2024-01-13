@@ -3,7 +3,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor() { }
+  constructor() {}
 
   update(id: string, updateUserDto: UpdateUserDto) {
     return {

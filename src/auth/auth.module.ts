@@ -11,6 +11,8 @@ import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { AccessToken } from './entities/access-token.entity';
 import { RefreshToken } from './entities/refresh-token.entity';
 import { MailModule } from 'src/mail/mail.module';
+import { AccountValidation } from './entities/account-validation.entity';
+import { ResetPassword } from './entities/reset-password.entity';
 
 @Module({
   controllers: [AuthController],
@@ -21,7 +23,12 @@ import { MailModule } from 'src/mail/mail.module';
     JwtService,
   ],
   imports: [
-    TypeOrmModule.forFeature([AccessToken, RefreshToken]),
+    TypeOrmModule.forFeature([
+      AccessToken,
+      RefreshToken,
+      AccountValidation,
+      ResetPassword,
+    ]),
     UserModule,
     ConfigModule,
     PassportModule,

@@ -5,16 +5,16 @@ import { User } from '../entities/user.entity';
 type UserConfig = Omit<CreateUserDto, 'confirmPassword'>;
 
 export class UserFactory {
-  constructor(private readonly user: UserConfig) {}
+  constructor(private readonly user: Partial<UserConfig>) {}
 
   create(): User {
     const hashPassword = ByCript.hasSync(this.user.password);
     return {
       ...this.user,
-      email: this.user.email.toLocaleLowerCase(),
+      email: this.user.email?.toLocaleLowerCase(),
       avatars: this.avatars,
       password: hashPassword,
-    };
+    } as User;
   }
 
   private get avatars() {

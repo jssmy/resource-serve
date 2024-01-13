@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { PassportModule } from '@nestjs/passport';
 import { MailModule } from 'src/mail/mail.module';
-import { AccountValidation } from './entities/account-validation.entity';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -14,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ConfigModule,
     PassportModule,
-    TypeOrmModule.forFeature([User, AccountValidation]),
+    TypeOrmModule.forFeature([User]),
     MailModule,
   ],
   exports: [UserService, TypeOrmModule, ConfigModule],

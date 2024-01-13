@@ -15,7 +15,8 @@ import { User } from 'src/user/entities/user.entity';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { Auth } from './guards/auth';
 import { UserGrant } from 'src/commons/types/user-grant';
-import { RetryAccountValidationDto } from './dto/retry-account-validation.dto';
+import { MailValidationDto } from './dto/mail-validation.dto';
+import { PassordResetDto } from './dto/password-reset.tdo';
 
 @Controller('auth')
 export class AuthController {
@@ -53,7 +54,20 @@ export class AuthController {
   }
 
   @Post('retry-validation')
-  retryAccounValidation(@Body() retryDto: RetryAccountValidationDto) {
+  retryAccounValidation(@Body() retryDto: MailValidationDto) {
     return this.authService.retryAccounValidation(retryDto.email);
+  }
+
+  @Post('reset-password-request')
+  resetPasswordRequest(@Body() resetDto: MailValidationDto) {
+    return this.authService.resetPasswordRequest(resetDto.email);
+  }
+
+  @Post('reset-password/:token')
+  resetPassdword(
+    @Param('token') token: string,
+    @Body() resetDto: PassordResetDto,
+  ) {
+    return this.authService.resetPassword(token, resetDto.password);
   }
 }
