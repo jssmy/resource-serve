@@ -9,6 +9,7 @@ import { AccessToken } from './entities/access-token.entity';
 import { Repository } from 'typeorm';
 import { RefreshTokenPayload } from './interfaces/refresh-token.payload';
 import { RefreshToken } from './entities/refresh-token.entity';
+import { SuccessHandle } from 'src/commons/classes/success.handle';
 
 @Injectable()
 export class GenerateTokenService {
@@ -19,7 +20,7 @@ export class GenerateTokenService {
     private readonly tokenRepository: Repository<AccessToken>,
     @InjectRepository(RefreshToken)
     private readonly refreshRepository: Repository<RefreshToken>,
-  ) {}
+  ) { }
 
   async token(user: User) {
     const accessTokenPayload: AccessTokenPayload = {
@@ -110,5 +111,27 @@ export class GenerateTokenService {
       .catch((err) => {
         throw new HttpException(err, err.status || 500);
       });
+  }
+
+  private async revoke(id: string) {
+    const accessToken = await this.tokenRepository.findOne({
+      where: { revoked: false, id: id },
+    });
+
+    const refreshToken = await this.refreshRepository.findOne({
+      where: { accessTokenId: accessToken.id },
+    });
+
+    return Promise.all([
+      this.tokenRepository.update(accessToken.id, { revoked: true }),
+      this.refreshRepository.update(refreshToken.id, { revoked: true }),
+    ]).then(() => new SuccessHandle('Token was revoked'));
+  }
+
+  logout(accessToken: string) {
+    const { id }: AccessToken = this.jwtService.decode(accessToken, {
+      json: true,
+    });
+    return this.revoke(id);
   }
 }

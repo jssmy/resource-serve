@@ -5,7 +5,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('reset-password')
 export class ResetPasswordController {
-  constructor(private readonly resetPasswordService: ResetPasswordService) {}
+  constructor(private readonly resetPasswordService: ResetPasswordService) { }
 
   @Post()
   sendResetPasswordMail(@Body() resetPasswordDto: ResetPasswordRequestDto) {

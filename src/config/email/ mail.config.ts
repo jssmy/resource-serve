@@ -2,7 +2,7 @@ import { MailerAsyncOptions } from '@nestjs-modules/mailer/dist/interfaces/maile
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
-export const notReplayMailAsynConfig: MailerAsyncOptions = {
+export const mailConfig: MailerAsyncOptions = {
   imports: [ConfigModule],
   inject: [ConfigService],
   useFactory: (config: ConfigService) => {

@@ -18,4 +18,4 @@ import { ConfigModule } from '@nestjs/config';
   ],
   exports: [ConfirmAccountService, TypeOrmModule],
 })
-export class ConfirmAccountModule {}
+export class ConfirmAccountModule { }

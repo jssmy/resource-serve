@@ -8,7 +8,7 @@ export class MailService {
   constructor(
     private readonly mailService: MailerService,
     private readonly config: ConfigService,
-  ) {}
+  ) { }
 
   sendMailAccountConfirmation(user: User, token: string) {
     const url = `${this.config.get('MAIL_CONFIRM_URL')}/${token}`;

@@ -17,7 +17,7 @@ export class RegisterService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly confirmAccountService: ConfirmAccountService,
-  ) {}
+  ) { }
   async create(createUserDto: CreateUserDto) {
     try {
       const user = new UserFactory(createUserDto).create();

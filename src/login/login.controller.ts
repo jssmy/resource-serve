@@ -4,7 +4,7 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller('login')
 export class LoginController {
-  constructor(private readonly loginService: LoginService) {}
+  constructor(private readonly loginService: LoginService) { }
 
   @Post()
   attemp(@Body() loginDto: LoginDto) {

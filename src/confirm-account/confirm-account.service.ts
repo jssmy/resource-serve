@@ -1,8 +1,8 @@
 import {
-  BadRequestException,
-  HttpException,
-  Injectable,
-  NotFoundException,
+    BadRequestException,
+    HttpException,
+    Injectable,
+    NotFoundException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ConfirmAccount } from './entities/confirm-account.entity';
@@ -17,80 +17,80 @@ import { ConfirmAccountDto } from './dto/confirm-account.dto';
 
 @Injectable()
 export class ConfirmAccountService {
-  constructor(
-    @InjectRepository(ConfirmAccount)
-    private readonly accountConfirmRepository: Repository<ConfirmAccount>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    private readonly mainService: MailService,
-    private readonly configService: ConfigService,
-  ) {}
+    constructor(
+        @InjectRepository(ConfirmAccount)
+        private readonly accountConfirmRepository: Repository<ConfirmAccount>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+        private readonly mainService: MailService,
+        private readonly configService: ConfigService,
+    ) { }
 
-  async sendConfirmation(user: User) {
-    const accountValidation = new ConfirmAccountFactory(
-      user.id,
-      this.configService.get('MAIL_CONFIRM_EXPIRES_IN'),
-    ).create();
+    async sendConfirmation(user: User) {
+        const accountValidation = new ConfirmAccountFactory(
+            user.id,
+            this.configService.get('MAIL_CONFIRM_EXPIRES_IN'),
+        ).create();
 
-    await this.accountConfirmRepository.save(accountValidation);
-    this.mainService.sendMailAccountConfirmation(user, accountValidation.token);
-  }
-
-  async confrim(token: string) {
-    const accountConfirmation = await this.accountConfirmRepository.findOne({
-      where: { token, revoked: false },
-      select: { token: true, revoked: true, expiresIn: true, userId: true },
-    });
-
-    if (!accountConfirmation) {
-      throw new BadRequestException('Token is invalid');
+        await this.accountConfirmRepository.save(accountValidation);
+        this.mainService.sendMailAccountConfirmation(user, accountValidation.token);
     }
 
-    const isExpiredToken =
-      DateHelper.date(accountConfirmation.expiresIn).diff(
-        DateHelper.date(),
-        'hours',
-      ) <= 0;
+    async confrim(token: string) {
+        const accountConfirmation = await this.accountConfirmRepository.findOne({
+            where: { token, revoked: false },
+            select: { token: true, revoked: true, expiresIn: true, userId: true },
+        });
 
-    if (isExpiredToken) {
-      throw new HttpException('Token expired', 419);
+        if (!accountConfirmation) {
+            throw new BadRequestException('Token is invalid');
+        }
+
+        const isExpiredToken =
+            DateHelper.date(accountConfirmation.expiresIn).diff(
+                DateHelper.date(),
+                'hours',
+            ) <= 0;
+
+        if (isExpiredToken) {
+            throw new HttpException('Token expired', 419);
+        }
+
+        return Promise.all([
+            this.accountConfirmRepository.update(accountConfirmation.token, {
+                revoked: true,
+            }),
+            this.userRepository.update(accountConfirmation.userId, {
+                accountValidated: true,
+                accountValidatedDate: DateHelper.date().toDate(),
+            }),
+        ])
+            .then(() => new SuccessHandle('Account is validated'))
+            .catch((err) => {
+                throw new HttpException(err, err.status || 500);
+            });
     }
 
-    return Promise.all([
-      this.accountConfirmRepository.update(accountConfirmation.token, {
-        revoked: true,
-      }),
-      this.userRepository.update(accountConfirmation.userId, {
-        accountValidated: true,
-        accountValidatedDate: DateHelper.date().toDate(),
-      }),
-    ])
-      .then(() => new SuccessHandle('Account is validated'))
-      .catch((err) => {
-        throw new HttpException(err, err.status || 500);
-      });
-  }
+    async retryConfirmation(confirmDto: ConfirmAccountDto) {
+        const email = confirmDto.email.toLocaleLowerCase();
 
-  async retryConfirmation(confirmDto: ConfirmAccountDto) {
-    const email = confirmDto.email.toLocaleLowerCase();
+        const user = await this.userRepository.findOneBy({ email });
 
-    const user = await this.userRepository.findOneBy({ email });
+        if (!user) {
+            throw new NotFoundException('Email not found');
+        }
 
-    if (!user) {
-      throw new NotFoundException('Email not found');
+        if (user.accountValidated) {
+            throw new BadRequestException('Email account is already validated');
+        }
+
+        return this.sendConfirmation(user)
+            .then(
+                () =>
+                    new SuccessHandle(`Mail was send to ${email}, please yor inbox mail`),
+            )
+            .catch((err) => {
+                throw new HttpException(err, err.status || 500);
+            });
     }
-
-    if (user.accountValidated) {
-      throw new BadRequestException('Email account is already validated');
-    }
-
-    return this.sendConfirmation(user)
-      .then(
-        () =>
-          new SuccessHandle(`Mail was send to ${email}, please yor inbox mail`),
-      )
-      .catch((err) => {
-        throw new HttpException(err, err.status || 500);
-      });
-  }
 }

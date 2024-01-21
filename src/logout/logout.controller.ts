@@ -1,42 +1,15 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { LogoutService } from './logout.service';
-import { CreateLogoutDto } from './dto/create-logout.dto';
-import { UpdateLogoutDto } from './dto/update-logout.dto';
+import { Controller, Delete, UseGuards, Headers } from '@nestjs/common';
+
+import { AuthGuard } from '@nestjs/passport';
+import { GenerateTokenService } from 'src/token/generate-token.service';
 
 @Controller('logout')
 export class LogoutController {
-  constructor(private readonly logoutService: LogoutService) {}
+  constructor(private readonly tokenService: GenerateTokenService) { }
 
-  @Post()
-  create(@Body() createLogoutDto: CreateLogoutDto) {
-    return this.logoutService.create(createLogoutDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.logoutService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.logoutService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLogoutDto: UpdateLogoutDto) {
-    return this.logoutService.update(+id, updateLogoutDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.logoutService.remove(+id);
+  @Delete()
+  @UseGuards(AuthGuard('jwt-access'))
+  logout(@Headers('authorization') accessToken: string) {
+    return this.tokenService.logout(accessToken.replace('Bearer', ''.trim()));
   }
 }
