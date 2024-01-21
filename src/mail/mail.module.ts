@@ -9,4 +9,4 @@ import { ConfigModule } from '@nestjs/config';
   imports: [MailerModule.forRootAsync(notReplayMailAsynConfig), ConfigModule],
   exports: [MailService, MailerModule],
 })
-export class MailModule { }
+export class MailModule {}

@@ -12,9 +12,14 @@ import { UserGrant } from 'src/commons/types/user-grant';
 
 export class CreateUserDto {
   @IsString()
-  @MinLength(8)
-  @MaxLength(40)
+  @MinLength(2)
+  @MaxLength(50)
   name: string;
+
+  @IsString()
+  @MinLength(8)
+  @MaxLength(155)
+  surnames: string;
 
   @MaxLength(40)
   @MinLength(5)

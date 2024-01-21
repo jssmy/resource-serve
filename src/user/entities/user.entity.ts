@@ -15,8 +15,11 @@ export class User {
   @Column('varchar', { unique: true, length: 50 })
   email: string;
 
-  @Column('varchar', { length: 155 })
+  @Column('varchar', { length: 50 })
   name: string;
+
+  @Column('varchar', { length: 155 })
+  surnames: string;
 
   @Column('json')
   avatars: string[];
