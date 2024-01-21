@@ -10,7 +10,6 @@ import { RegisterModule } from './register/register.module';
 import { LoginModule } from './login/login.module';
 import { LogoutModule } from './logout/logout.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
-import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 import { TokenModule } from './token/token.module';
 import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
 
@@ -24,7 +23,6 @@ import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
     LoginModule,
     LogoutModule,
     ResetPasswordModule,
-    ForgotPasswordModule,
     TokenModule,
     ConfirmAccountModule,
   ],
