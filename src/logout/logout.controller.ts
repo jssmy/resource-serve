@@ -5,7 +5,7 @@ import { GenerateTokenService } from 'src/token/generate-token.service';
 
 @Controller('logout')
 export class LogoutController {
-  constructor(private readonly tokenService: GenerateTokenService) { }
+  constructor(private readonly tokenService: GenerateTokenService) {}
 
   @Delete()
   @UseGuards(AuthGuard('jwt-access'))

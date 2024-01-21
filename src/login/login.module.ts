@@ -9,4 +9,4 @@ import { TokenModule } from 'src/token/token.module';
   providers: [LoginService],
   imports: [UserModule, TokenModule],
 })
-export class LoginModule { }
+export class LoginModule {}

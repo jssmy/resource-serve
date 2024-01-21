@@ -17,4 +17,4 @@ import { ResetPassword } from './entities/reset-password.entity';
   ],
   providers: [ResetPasswordService],
 })
-export class ResetPasswordModule { }
+export class ResetPasswordModule {}

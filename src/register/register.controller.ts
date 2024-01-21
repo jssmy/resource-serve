@@ -4,7 +4,7 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 @Controller('register')
 export class RegisterController {
-  constructor(private readonly registerService: RegisterService) { }
+  constructor(private readonly registerService: RegisterService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {

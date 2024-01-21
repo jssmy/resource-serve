@@ -4,7 +4,7 @@ import { ConfirmAccountService } from './confirm-account.service';
 
 @Controller('confirm-account')
 export class ConfirmAccountController {
-  constructor(private readonly confirmAccountService: ConfirmAccountService) { }
+  constructor(private readonly confirmAccountService: ConfirmAccountService) {}
 
   @Get('/:token')
   confirm(@Param('token') token: string) {

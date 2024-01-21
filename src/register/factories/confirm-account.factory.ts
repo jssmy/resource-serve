@@ -7,7 +7,7 @@ export class ConfirmAccountFactory {
   constructor(
     private readonly userId: string,
     private readonly expresIn: number,
-  ) { }
+  ) {}
 
   create(): Partial<ConfirmAccount> {
     return {

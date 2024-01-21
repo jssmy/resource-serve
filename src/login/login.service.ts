@@ -16,7 +16,7 @@ export class LoginService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly generateToken: GenerateTokenService,
-  ) { }
+  ) {}
 
   async attemp(loginDto: LoginDto) {
     const email = loginDto.email.toLocaleLowerCase();

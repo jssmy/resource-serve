@@ -20,7 +20,7 @@ export class GenerateTokenService {
     private readonly tokenRepository: Repository<AccessToken>,
     @InjectRepository(RefreshToken)
     private readonly refreshRepository: Repository<RefreshToken>,
-  ) { }
+  ) {}
 
   async token(user: User) {
     const accessTokenPayload: AccessTokenPayload = {

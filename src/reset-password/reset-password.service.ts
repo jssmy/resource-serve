@@ -27,7 +27,7 @@ export class ResetPasswordService {
     private readonly resetPasswordRepository: Repository<ResetPassword>,
     private readonly configService: ConfigService,
     private readonly mailService: MailService,
-  ) { }
+  ) {}
   async sendMailResetPassword(resetPasswordDto: ResetPasswordRequestDto) {
     const email = resetPasswordDto.email.toLocaleLowerCase();
 

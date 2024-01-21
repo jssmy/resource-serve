@@ -12,4 +12,4 @@ import { ConfirmAccountModule } from 'src/confirm-account/confirm-account.module
   providers: [RegisterService, ConfirmAccountService],
   imports: [UserModule, ConfigModule, MailModule, ConfirmAccountModule],
 })
-export class RegisterModule { }
+export class RegisterModule {}
