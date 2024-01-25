@@ -1,7 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
@@ -33,7 +33,7 @@ export class LoginService {
     });
 
     if (!user) {
-      throw new NotFoundException('Credentials are incorrect');
+      throw new UnauthorizedException('Credentials are incorrect');
     }
 
     if (!user.state) {

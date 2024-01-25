@@ -1,6 +1,6 @@
 import {
   IsEmail,
-  IsEnum,
+  IsInt,
   IsOptional,
   IsString,
   Matches,
@@ -8,7 +8,6 @@ import {
   MinLength,
 } from 'class-validator';
 import { PasswordRegx } from 'src/commons/regx/password.regx';
-import { UserGrant } from 'src/commons/types/user-grant';
 
 export class CreateUserDto {
   @IsString()
@@ -42,6 +41,6 @@ export class CreateUserDto {
   @MinLength(8)
   confirmPassword: string;
 
-  @IsEnum(UserGrant)
-  userGrant: UserGrant;
+  @IsInt()
+  roleId: number;
 }

@@ -43,7 +43,11 @@ export class AccessTokenStrategy extends PassportStrategy(
       throw new UnauthorizedException('Token is invalid');
     }
 
-    const user = await this.userRepository.findOneBy({ id: uid });
+    const user = await this.userRepository.findOne({
+      where: { id: uid },
+      relations: ['role.permissions'],
+      cache: true,
+    });
 
     if (!user) {
       throw new UnauthorizedException('Token is invalid');

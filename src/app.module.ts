@@ -12,6 +12,8 @@ import { LogoutModule } from './logout/logout.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { TokenModule } from './token/token.module';
 import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
+import { RolesModule } from './roles/roles.module';
+import { PermissionsModule } from './permissions/permissions.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
     ResetPasswordModule,
     TokenModule,
     ConfirmAccountModule,
+    RolesModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

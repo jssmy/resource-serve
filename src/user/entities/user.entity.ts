@@ -2,10 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserGrant } from 'src/commons/types/user-grant';
+import { Role } from 'src/roles/entities/role.entity';
 
 @Entity('users')
 export class User {
@@ -27,17 +28,17 @@ export class User {
   @Column('varchar', { length: 255, select: false })
   password: string;
 
-  @Column('enum', { enum: UserGrant, default: UserGrant.ADMIN })
-  userGrant: UserGrant;
-
   @Column('boolean', { default: true })
-  state?: boolean;
+  state: boolean;
 
   @Column('boolean', { default: false })
   accountValidated?: boolean;
 
   @Column('datetime', { nullable: true })
   accountValidatedDate?: Date;
+
+  @ManyToOne(() => Role, (role) => role.users)
+  role: Role;
 
   @CreateDateColumn()
   createdAt?: Date;
