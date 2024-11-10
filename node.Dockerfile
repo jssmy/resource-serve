@@ -34,9 +34,6 @@ RUN npm install
 # Copia la aplicación construida desde la fase anterior
 COPY --from=builder /app/dist ./dist
 
-#corremos seeder
-#RUN npm run seed
-
 
 # Establece la variable de entorno para que NestJS use el entorno de producción
 ENV NODE_ENV production
