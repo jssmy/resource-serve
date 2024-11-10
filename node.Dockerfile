@@ -35,7 +35,7 @@ RUN npm install
 COPY --from=builder /app/dist ./dist
 
 #corremos seeder
-RUN npm run seed
+#RUN npm run seed
 
 
 # Establece la variable de entorno para que NestJS use el entorno de producción
