@@ -1,6 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { runSeeders, SeederOptions } from 'typeorm-extension';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import InitSeeder from './seeds/init.seeder';
 import { databaseConfiguration } from '../config/database/db-auth.config';
 import { Logger } from '@nestjs/common';
@@ -18,8 +18,12 @@ import { Logger } from '@nestjs/common';
     envFilePath: '.env',
   });
 
+
+  const config = new ConfigService();
+
+
   const dataSource = new DataSource({
-    ...databaseConfiguration(),
+    ...databaseConfiguration(config),
     entities: [__dirname + '/../**/*.entity.{js,ts}'],
     seeds: [InitSeeder],
   } as DataSourceOptions & SeederOptions);

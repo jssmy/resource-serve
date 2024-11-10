@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { CreatedHandle } from 'src/commons/classes/created.handle';
 
 @Injectable()
 export class RolesService {
@@ -22,6 +23,7 @@ export class RolesService {
     try {
       const role = this.roleRepository.create(createRoleDto);
       await this.roleRepository.save(role);
+      return new CreatedHandle('Role has been created');
     } catch (err) {
       this.handleDBException(err);
     }

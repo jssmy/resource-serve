@@ -1,7 +1,7 @@
 export enum PermissionPolicy {
-  CREATE = '7938061d-ad4a-419b-b224-915e34b92c95',
-  FIND_ALL = '6423bb0f-e013-455c-8456-f271ea88f2ef',
-  FIND_ONE = '3d3a26cd-e5ed-49eb-88e5-0fa321b9da03',
-  DELETE = 'e7107e88-37e2-428f-875c-03fd8125cfe8',
-  UPDATE = '9280244f-3b30-44bc-950c-6cd5a3f7ae96',
+  CREATE = '34a101cd-1c45-409d-8de0-93b1736f232e',
+  FIND_ALL = '83ce23d5-ca5f-42ad-a2db-4fd63e471d57',
+  FIND_ONE = 'aa04b776-dd3c-46f6-81ad-bdeddb6b5ac5',
+  DELETE = '6e2111dd-bc66-4953-9982-4746d919a9cb',
+  UPDATE = 'acc198ac-ab7d-42ea-b92f-3f890abc7dc2',
 }

@@ -20,7 +20,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:create": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs db:create",
     "db:drop": "ts-node ./node_modules/typeorm-extension/bin/cli.cjs db:drop",
-    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs seed:run -d src/database/data-source.ts",
     "seed": "ts-node -r tsconfig-paths/register src/database/typeorm-config.seed.ts"
   },
   "dependencies": {
@@ -36,6 +35,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv": "^16.4.5",
     "moment": "^2.30.1",
     "nodemailer": "^6.9.8",
     "passport": "^0.6.0",

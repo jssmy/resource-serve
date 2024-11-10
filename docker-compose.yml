@@ -1,0 +1,49 @@
+services:
+  mysql-auth:
+    build:
+      context: .
+      dockerfile: mysql.Dockerfile # Especifica el nombre de tu Dockerfile si no es el predeterminado
+      args:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: auth-db
+        MYSQL_USER: admin
+        MYSQL_PASSWORD: admin
+    container_name: mysql-auth-container
+    ports:
+      - "3306:3306"
+    volumes:
+      - auth-volume:/var/lib/mysql
+
+  node-auth:
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+    container_name: node-auth-container
+    ports:
+      - "3000:3000"
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      JWT_TOKEN_SECRET: ${JWT_TOKEN_SECRET}
+      JWT_TOKEN_EXPIRE: ${JWT_TOKEN_EXPIRE}
+      JWT_REFRESH_TOKEN_SECRET: ${JWT_REFRESH_TOKEN_SECRET}
+      JWT_REFRESH_TOKEN_EXPIRE: ${JWT_REFRESH_TOKEN_EXPIRE}
+      MAIL_DRIVER: ${MAIL_DRIVER}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME}
+      MAIL_ENCRYPTION: ${MAIL_ENCRYPTION}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_CONFIRM_EXPIRES_IN: ${MAIL_CONFIRM_EXPIRES_IN}
+      MAIL_CONFIRM_URL: ${MAIL_CONFIRM_URL}
+      MAIL_RESET_PASSEWORD_URL: ${MAIL_RESET_PASSEWORD_URL}
+      MAIL_RESET_PASSWORD_EXPIRES_IN: ${MAIL_RESET_PASSWORD_EXPIRES_IN}
+    depends_on:
+      - mysql-auth
+volumes:
+  auth-volume:

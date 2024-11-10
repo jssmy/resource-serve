@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { databaseConfiguration } from './config/database/db-auth.config';
 import { MailModule } from './mail/mail.module';
 import { RegisterModule } from './register/register.module';
 import { LoginModule } from './login/login.module';
@@ -14,12 +13,19 @@ import { TokenModule } from './token/token.module';
 import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
+import { databaseConfiguration } from './config/database/db-auth.config';
+
+
 
 @Module({
   imports: [
     UserModule,
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(databaseConfiguration()),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ ConfigService ],
+      useFactory: (config: ConfigService) => databaseConfiguration(config),
+    }),
     MailModule,
     RegisterModule,
     LoginModule,
@@ -28,7 +34,7 @@ import { PermissionsModule } from './permissions/permissions.module';
     TokenModule,
     ConfirmAccountModule,
     RolesModule,
-    PermissionsModule,
+    PermissionsModule
   ],
   controllers: [AppController],
   providers: [AppService],

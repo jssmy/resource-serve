@@ -1,7 +1,7 @@
 export enum RolePolicy {
-  CREATE = '665dcd7b-8513-4684-a1f7-0bc3dc5f0dbf',
-  FIND_ALL = '79e63dd9-81e3-4893-ba45-2031522c38d7',
-  FIND_ONE = '5245382f-04f2-41c6-9300-4c7a629b80e6',
-  DELETE = 'aff90268-891b-4855-bebf-3cbf12b4fc22',
-  UPDATE = 'db77355f-cc36-4d8d-a8f6-ae756ffbb477',
+  CREATE = 'f495cab4-8eda-46e6-99ee-7e9ecdf89d7d',
+  FIND_ALL = '528322fe-6e8d-4045-b751-4a7e263f5195',
+  FIND_ONE = '3a990551-aa84-4652-a242-0435eda5f299',
+  DELETE = 'b1787f76-45ce-4a7a-bcb8-fcab2eb884f2',
+  UPDATE = '551b12de-0d64-4e08-b3eb-a2996682bda4',
 }
