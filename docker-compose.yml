@@ -4,10 +4,11 @@ services:
       context: .
       dockerfile: mysql.Dockerfile # Especifica el nombre de tu Dockerfile si no es el predeterminado
       args:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: auth-db
-        MYSQL_USER: admin
-        MYSQL_PASSWORD: admin
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${DB_NAME}
+        MYSQL_USER: ${DB_USER}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+    platform: linux/arm64
     container_name: mysql-auth-container
     ports:
       - "3306:3306"
