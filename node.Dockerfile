@@ -11,7 +11,6 @@ COPY package.json ./
 # instala las dependencias de la aplicacion
 RUN npm install
 
-RUN npm install mysql
 
 # copia el el codigo de la aplicacion dentro del contenedor
 COPY . ./
