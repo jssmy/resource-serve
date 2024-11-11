@@ -1,5 +1,5 @@
 # Usa la imagen oficial de MySQL como base
-FROM mysql:5.7
+FROM mysql:latest
 
 # Define los argumentos que se pasarán en el momento de la construcción
 ARG MYSQL_ROOT_PASSWORD

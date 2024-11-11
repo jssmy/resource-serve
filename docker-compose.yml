@@ -45,5 +45,6 @@ services:
       MAIL_RESET_PASSWORD_EXPIRES_IN: ${MAIL_RESET_PASSWORD_EXPIRES_IN}
     depends_on:
       - mysql-auth
+
 volumes:
   auth-volume:

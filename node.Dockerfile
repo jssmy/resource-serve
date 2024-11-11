@@ -1,33 +1,35 @@
 #imagen de base 
-FROM node:22-alpine3.20 as builder
+FROM node:22.0 as builder
 
 # establece la direccion de trabajo dentro del contenedor
 
 WORKDIR /app
 
 # copia el archivo packege.json y package-lock.json
-COPY package*.json ./
+COPY package.json ./
 
 # instala las dependencias de la aplicacion
 RUN npm install
 
+RUN npm install mysql
+
 # copia el el codigo de la aplicacion dentro del contenedor
 COPY . ./
+
 
 # haces build de la aplicacion
 RUN npm run build
 
-# run seed
-RUN npm run seed
+#RUN npm run seed
 
 # Configura la segunda fase (etapa de producción) para reducir el tamaño de la imagen
-FROM node:22-alpine3.20 as production
+FROM node:22.0 as production
 
 #establece entorno de trabajo
 WORKDIR /app
 
 # Copia solo las dependencias de producción desde la fase de construcción
-COPY package*.json ./
+COPY --from=builder /app/package*.json ./
 
 #instalamos dependencias
 RUN npm install
@@ -45,8 +47,5 @@ EXPOSE 3000
 
 # Comando para iniciar la aplicación
 CMD ["node", "dist/main"]
-
-
-
 
 
