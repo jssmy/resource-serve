@@ -17,6 +17,8 @@ COPY . ./
 # haces build de la aplicacion
 RUN npm run build
 
+# run seed
+RUN npm run seed
 
 # Configura la segunda fase (etapa de producción) para reducir el tamaño de la imagen
 FROM node:22-alpine3.20 as production
