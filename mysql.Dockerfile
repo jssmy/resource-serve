@@ -1,5 +1,7 @@
 # Usa la imagen oficial de MySQL como base
-FROM mysql:8.0
+ARG MYSQL_VERSION=8.0
+FROM mysql:${MYSQL_VERSION}
+
 
 # Define los argumentos que se pasarán en el momento de la construcción
 ARG MYSQL_ROOT_PASSWORD
