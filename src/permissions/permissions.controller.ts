@@ -6,37 +6,43 @@ import {
   Patch,
   Param,
   Delete,
+  ForbiddenException,
+  HttpStatus,
 } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { CheckPolicies } from 'src/commons/guards/check-policies';
-import { PermissionPolicy } from 'src/policies/permission.policy';
+import { Auth } from 'src/commons/guards/auth';
+import { PermissionPolicy } from 'src/commons/policies/permission.policy';
+import { GetUser } from 'src/user/decoratos/get-user.decorator';
+import { User } from 'src/user/entities/user.entity';
+import { TypePermissions } from './types/type-permissions.type';
 
 @Controller('permissions')
 export class PermissionsController {
-  constructor(private readonly permissionsService: PermissionsService) {}
+  constructor(private readonly permissionsService: PermissionsService) { }
 
   @Post()
-  @CheckPolicies<PermissionPolicy>(PermissionPolicy.CREATE)
+  @CheckPolicies(TypePermissions.API)
   create(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionsService.create(createPermissionDto);
   }
 
   @Get()
-  @CheckPolicies<PermissionPolicy>(PermissionPolicy.FIND_ALL)
+  @CheckPolicies(TypePermissions.API)
   findAll() {
     return this.permissionsService.findAll();
   }
 
   @Get(':id')
-  @CheckPolicies<PermissionPolicy>(PermissionPolicy.FIND_ONE)
+  @CheckPolicies(TypePermissions.API)
   findOne(@Param('id') id: string) {
     return this.permissionsService.findOne(id);
   }
 
   @Patch(':id')
-  @CheckPolicies<PermissionPolicy>(PermissionPolicy.UPDATE)
+  @CheckPolicies(TypePermissions.API)
   update(
     @Param('id') id: string,
     @Body() updatePermissionDto: UpdatePermissionDto,
@@ -45,8 +51,9 @@ export class PermissionsController {
   }
 
   @Delete(':id')
-  @CheckPolicies<PermissionPolicy>(PermissionPolicy.UPDATE)
+  @CheckPolicies(TypePermissions.API)
   remove(@Param('id') id: string) {
     return this.permissionsService.remove(id);
   }
+
 }

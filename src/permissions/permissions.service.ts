@@ -17,7 +17,7 @@ export class PermissionsService {
   constructor(
     @InjectRepository(Permission)
     private readonly permissionRepository: Repository<Permission>,
-  ) {}
+  ) { }
 
   async create(createPermissionDto: CreatePermissionDto) {
     try {
@@ -33,6 +33,7 @@ export class PermissionsService {
   }
 
   async findOne(id: string) {
+
     const permission = await this.permissionRepository.findOneBy({ id });
 
     if (permission) {
@@ -64,6 +65,7 @@ export class PermissionsService {
 
     return new SuccessHandle('Permission removed');
   }
+
 
   private handleDBException(error) {
     if (error.code === 'ER_DUP_ENTRY') {

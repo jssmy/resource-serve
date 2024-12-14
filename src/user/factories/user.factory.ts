@@ -1,8 +1,8 @@
 import { ByCript } from 'src/commons/classes/bycript';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
+import { RegisterUserDto } from '../dto/register-user.dto';
 
-type UserConfig = Omit<CreateUserDto, 'confirmPassword'>;
+type UserConfig = Omit<RegisterUserDto, 'confirmPassword'>;
 
 export class UserFactory {
   constructor(private readonly user: Partial<UserConfig>) {}

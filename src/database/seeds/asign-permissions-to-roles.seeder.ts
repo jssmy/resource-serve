@@ -6,17 +6,22 @@ import { Role } from 'src/roles/entities/role.entity';
 
 export default class AsignPermissionsToRolesSeeder implements Seeder {
   public async run(dataSource: DataSource): Promise<any> {
+
+    const PERMISSIONS_FACTORIES = [
+      ...permissionesFactories,
+    ]
+
     const repositoryRole = dataSource.getRepository(Role);
     const repositoryPermission = dataSource.getRepository(Permission);
 
     const rootRole = await repositoryRole.findOneBy({ name: 'Root' });
 
     const permissions = await repositoryPermission.find({
-      where: { name: In([permissionesFactories.map((pr) => pr.name)]) },
+      where: { name: In([PERMISSIONS_FACTORIES.map((pr) => pr.name)]) },
     });
 
     // first clean relationship fot not duplicate
-
+    
     rootRole.permissions = [];
 
     const toClean = await repositoryRole.preload(rootRole);

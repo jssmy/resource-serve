@@ -1,5 +1,6 @@
-import { IsEnum, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
 import { TypePermissions } from '../types/type-permissions.type';
+import { HttpMethod } from 'src/commons/enums/http- methods';
 
 export class CreatePermissionDto {
   @IsString()
@@ -12,4 +13,18 @@ export class CreatePermissionDto {
 
   @IsEnum(TypePermissions)
   type: TypePermissions;
+
+
+  @IsEnum(HttpMethod)
+  @IsOptional()
+  method?: HttpMethod;
+
+
+  @IsNumber()
+  @IsOptional()
+  parentId?: number;
+
+  @IsNumber()
+  @IsOptional()
+  order?: number;
 }

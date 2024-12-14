@@ -8,6 +8,7 @@ import { User } from 'src/user/entities/user.entity';
 import { AccessToken } from '../entities/access-token.entity';
 import { AccessTokenPayload } from '../interfaces/access-token.payload';
 
+
 @Injectable()
 export class AccessTokenStrategy extends PassportStrategy(
   Strategy,
@@ -43,12 +44,15 @@ export class AccessTokenStrategy extends PassportStrategy(
       throw new UnauthorizedException('Token is invalid');
     }
 
-    const user = await this.userRepository.findOne({
-      where: { id: uid },
-      relations: ['role.permissions'],
-      cache: true,
-    });
-
+    const user = await this.userRepository.createQueryBuilder('user')
+                .leftJoinAndSelect('user.role', 'role')
+                .leftJoinAndSelect('role.permissions', 'permission', 'permission.parent_id is null')
+                .leftJoinAndSelect('permission.children', 'children')
+                .where('user.id = :id', { id: uid })
+                .cache(true)
+                .getOne();
+    
+    
     if (!user) {
       throw new UnauthorizedException('Token is invalid');
     }

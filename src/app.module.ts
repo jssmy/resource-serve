@@ -14,6 +14,7 @@ import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { databaseConfiguration } from './config/database/db-auth.config';
+import { ControlAccessModule } from './control-access/control-access.module';
 
 
 
@@ -34,7 +35,8 @@ import { databaseConfiguration } from './config/database/db-auth.config';
     TokenModule,
     ConfirmAccountModule,
     RolesModule,
-    PermissionsModule
+    PermissionsModule,
+    ControlAccessModule
   ],
   controllers: [AppController],
   providers: [AppService],
