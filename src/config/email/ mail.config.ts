@@ -14,7 +14,7 @@ export const mailConfig: MailerAsyncOptions = {
     const user = config.get('MAIL_USERNAME');
     const pass = config.get('MAIL_PASSWORD');
 
-    return {
+    const configMail = {
       transport: {
         host,
         port,
@@ -38,5 +38,7 @@ export const mailConfig: MailerAsyncOptions = {
         },
       },
     };
+
+    return configMail;
   },
 };

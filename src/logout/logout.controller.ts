@@ -1,15 +1,16 @@
-import { Controller, Delete, UseGuards, Headers } from '@nestjs/common';
+import { Controller, Delete, UseGuards, Headers, Post } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
+import { trim } from 'src/commons/utils/string.util';
 import { GenerateTokenService } from 'src/token/generate-token.service';
 
 @Controller('logout')
 export class LogoutController {
   constructor(private readonly tokenService: GenerateTokenService) {}
 
-  @Delete()
+  @Post()
   @UseGuards(AuthGuard('jwt-access'))
   logout(@Headers('authorization') accessToken: string) {
-    return this.tokenService.logout(accessToken.replace('Bearer', ''.trim()));
+    return this.tokenService.logout(trim(accessToken.replace('Bearer', ''.trim()), ' '));
   }
 }

@@ -46,8 +46,7 @@ export class AccessTokenStrategy extends PassportStrategy(
 
     const user = await this.userRepository.createQueryBuilder('user')
                 .leftJoinAndSelect('user.role', 'role')
-                .leftJoinAndSelect('role.permissions', 'permission', 'permission.parent_id is null')
-                .leftJoinAndSelect('permission.children', 'children')
+                .leftJoinAndSelect('role.permissions', 'permission')
                 .where('user.id = :id', { id: uid })
                 .cache(true)
                 .getOne();

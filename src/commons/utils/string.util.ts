@@ -1,24 +1,44 @@
+import { Permission } from "src/permissions/entities/permission.entity";
+
 export const trim = (str: string, charToTrim) => {
+    str = str || '';
     const regex = new RegExp(`^[${charToTrim}]+|[${charToTrim}]+$`, 'g');
     return str.replace(regex, '');
 };
 
 
-function convertRouteToRegex(route: string) {
+function convertRouteToRegex(route: string): RegExp {
     // Escapar caracteres especiales en la ruta
-    let regexStr = route.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-    
-    // Reemplazar parámetros dinámicos `:param` por una expresión regular que coincida con cualquier cosa (alfa-numérico)
-    regexStr = regexStr.replace(/:([a-zA-Z_][a-zA-Z0-9_]*)/g, '([a-zA-Z0-9_]+)');
-    
-    // Agregar inicio y fin de línea para asegurar coincidencias exactas
-    return new RegExp('^' + regexStr + '$');
+    let regexStr = route.replace(/([.*+?^${}()|[\]\\])/g, '\\$1');
+
+    // Reemplazar parámetros dinámicos obligatorios y opcionales
+    regexStr = route.replace(/\/:([a-zA-Z_][a-zA-Z0-9_-]*)(\?)?/g, (_, paramName, optional) => {
+        // Verificar si es un parámetro opcional
+        const isOptional = optional !== undefined;
+
+        return isOptional ? '(?:/([a-zA-Z0-9_-]+))?' : '/([a-zA-Z0-9_-]+)';
+    });
+
+    // Permitir coincidencia exacta desde el inicio hasta el final y barra final opcional
+    return new RegExp(`^${regexStr}$`);
 }
 
-export function matchRoute(inputRoute: string, routes: string[]): boolean {
+
+
+
+
+export function matchRoute(inputRoute: string, routes: Permission[]): Permission {
     // Convertir la ruta recibida a expresión regular
-    const inputRouteRegex = convertRouteToRegex(inputRoute);
-  
+    
     // Comparar la ruta recibida con las rutas definidas
-    return routes.some(route => inputRouteRegex.test(route));
+    const formatRoutes = routes.map(route => ({ ...route, route: trim(route.route, '/')}));
+    const formatRoute = trim(inputRoute, '/').trim();
+
+
+    return formatRoutes.find(route =>  convertRouteToRegex(route.route).test(formatRoute));
+}
+
+export function removeQueryParams(url: string) {
+    const index = url.indexOf('?');
+    return index !== -1 ? url.substring(0, index) : url;
 }

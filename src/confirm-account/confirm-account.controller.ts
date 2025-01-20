@@ -7,7 +7,9 @@ export class ConfirmAccountController {
   constructor(private readonly confirmAccountService: ConfirmAccountService) {}
 
   @Get('/:token')
-  confirm(@Param('token') token: string) {
+  confirm(
+    @Param('token') token: string
+  ) {
     return this.confirmAccountService.confrim(token);
   }
 

@@ -1,5 +1,6 @@
 export enum TypePermissions {
-  API = 'api',
-  MENU = 'menu',
-  OPTION = 'option'
+  API = 'API',
+  MENU = 'MENU',
+  OPTION = 'OPTION',
+  GROUP = 'GROUP'
 }

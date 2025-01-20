@@ -13,7 +13,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - auth-volume:/var/lib/mysql
+      - ~/volumes/mysql-resource-serve:/var/lib/mysql
     restart: always
 
   node-auth:

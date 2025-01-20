@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -23,20 +24,45 @@ export class PermissionsService {
     try {
       const permission = new PermissionFactory(createPermissionDto).create();
       await this.permissionRepository.save(permission);
+      return new SuccessHandle('Permission created');
     } catch (err) {
       this.handleDBException(err);
     }
   }
 
+
   findAll() {
-    return this.permissionRepository.findBy({ state: true });
+    return this.permissionRepository.find();
+  }
+
+  async findAllByParentId(id: string, limit: number, page: number) {
+
+    const skip = (page - 1) * limit;
+
+
+    const queryBuilder = this.permissionRepository.createQueryBuilder('permission');
+
+    if (id) {
+      queryBuilder.where('permission.parent_id = :parentId', { parentId: id });
+    } else {
+      queryBuilder.where('permission.parent_id IS NULL');
+    }
+
+    const [data, total] = await queryBuilder.skip(skip).take(limit).getManyAndCount();
+    return {
+      data,
+      total,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      limit
+    }
   }
 
   async findOne(id: string) {
 
     const permission = await this.permissionRepository.findOneBy({ id });
 
-    if (permission) {
+    if (!permission) {
       throw new NotFoundException('Permission not found');
     }
 
@@ -44,25 +70,37 @@ export class PermissionsService {
   }
 
   async update(id: string, updatePermissionDto: UpdatePermissionDto) {
-    const permission = this.permissionRepository.create(updatePermissionDto);
-    const updated = await this.permissionRepository.update(id, permission);
 
-    if (updated.raw <= 0) {
-      throw new BadRequestException('Role not found');
+
+    // const permission = await this.findOne(id);
+
+    // if (permission.protected) {
+    //   throw new ForbiddenException('This permission can not update');
+    // }
+
+    const uptaded = await this.permissionRepository.update(id, {
+      method: null,
+      route: null,
+      ...updatePermissionDto
+    });
+
+    if (uptaded.affected <= 0) {
+      throw new NotFoundException('Role not found');
     }
 
     return new SuccessHandle('Permission updated');
   }
 
   async remove(id: string) {
-    const updated = await this.permissionRepository.update(id, {
-      state: false,
-    });
 
-    if (updated.raw <= 0) {
-      throw new BadRequestException('Permission not found');
+    const permission = await this.findOne(id);
+
+    if (permission.protected) {
+      throw new ForbiddenException('This permission can not remove');
     }
 
+
+    this.permissionRepository.remove(permission);
     return new SuccessHandle('Permission removed');
   }
 
@@ -70,7 +108,7 @@ export class PermissionsService {
   private handleDBException(error) {
     if (error.code === 'ER_DUP_ENTRY') {
       const [, role] = error.sqlMessage.split("'");
-      throw new BadRequestException(`Role ${role} is already exist`);
+      throw new BadRequestException(`Permission "${role}" is already exist`);
     }
 
     throw new InternalServerErrorException(error.sqlMessage);

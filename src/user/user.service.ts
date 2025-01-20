@@ -1,44 +1,72 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UserFactory } from './factories/user.factory';
-import { ConfirmAccountService } from 'src/confirm-account/confirm-account.service';
+import { SuccessHandle } from 'src/commons/classes/success.handle';
+
+
 
 @Injectable()
 export class UserService {
 
     constructor(
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>
-    ) {}
+        private readonly userRepository: Repository<User>,
+    ) { }
 
-    findAll() {
-        return this.userRepository.createQueryBuilder('user')
-        .leftJoinAndSelect('user.role', 'role')
-        .select([
-            'user.id',
-            'user.state',
-            'user.email',
-            'user.name',
-            'user.surnames',
-            'user.avatars',
-            'role.id',
-            'role.name',
-        ])
-        .getMany();
-        
-    }
+    async findAll(page: number, limit: number) {
 
-    create(createUserDto: CreateUserDto) {
-        const user = {
-            ...createUserDto,
-            password: 'AF4244'
+        const skip = (page - 1) * limit;
+
+        const [data, total] = await this.userRepository.createQueryBuilder('user')
+            .leftJoinAndSelect('user.role', 'role')
+            .where('user.state=1')
+            .skip(skip)
+            .take(limit)
+            .select([
+                'user.id',
+                'user.state',
+                'user.email',
+                'user.name',
+                'user.surnames',
+                'user.avatars',
+                'role.id',
+                'role.name',
+                'user.protected',
+                'user.accountValidated'
+            ])
+            .getManyAndCount();
+
+        return {
+            data,
+            total,
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+            limit
         };
-
-        return this.userRepository.save(new UserFactory(user).create());
     }
+
+    async delete(id: string) {
+
+        await this.userRepository.delete(id);
+        // const udpated = await this.userRepository.update(id, { state: false });
+
+        // if (udpated.affected <= 0) {
+        //     throw new NotFoundException('This user doest not exist');
+        // }
+
+        return new SuccessHandle('User was removed');
+
+    }
+
+    private handleDBException(error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+          const [, email] = error.sqlMessage.split("'");
+          throw new BadRequestException(`Email ${email} is already exist`);
+        }
     
+        throw new InternalServerErrorException(error.sqlMessage);
+      }
+
 
 }

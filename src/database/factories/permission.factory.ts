@@ -3,73 +3,130 @@ import { PermissionFactory } from 'src/permissions/fatories/permission.factory';
 import { TypePermissions } from 'src/permissions/types/type-permissions.type';
 
 export const permissionesFactories = [
+
+  /*****************************************/
+  /*    API                              */
+  /*****************************************/
   // roles
+
   new PermissionFactory({
-    name: 'Crear role',
+    name: 'Group role',
+    type: TypePermissions.API,
+    method: HttpMethod.GET
+  }).create(),
+
+  new PermissionFactory({
+    name: 'Group user',
+    type: TypePermissions.API,
+    method: HttpMethod.GET
+  }).create(),
+
+  new PermissionFactory({
+    name: 'Group permission',
+    type: TypePermissions.API,
+    method: HttpMethod.GET
+  }).create(),
+
+  new PermissionFactory({
+    name: 'Create role',
     type: TypePermissions.API,
     route: 'roles',
     method: HttpMethod.POST
   }).create(),
+
   new PermissionFactory({
-    name: 'Obtener roles',
+    name: 'Get all roles',
     type: TypePermissions.API,
     route: 'roles',
     method: HttpMethod.GET
   }).create(),
   new PermissionFactory({
-    name: 'Obtener rol',
+    name: 'Get role',
     type: TypePermissions.API,
     route: 'roles/:id',
     method: HttpMethod.GET
   }).create(),
   new PermissionFactory({
-    name: 'Actualizar rol',
+    name: 'Update role',
     type: TypePermissions.API,
     route: 'roles/:id',
     method: HttpMethod.PUT
   }).create(),
+
   new PermissionFactory({
-    name: 'Eliminar role',
+    name: 'Delete role',
     type: TypePermissions.API,
     route: 'roles/:id',
     method: HttpMethod.DELETE
   }).create(),
   // permissions
   new PermissionFactory({
-    name: 'Crear permiso',
+    name: 'Create permission',
     type: TypePermissions.API,
     route: 'permissions',
     method: HttpMethod.POST
   }).create(),
+
   new PermissionFactory({
-    name: 'Obtener permisos',
+    name: 'Get all permissions',
     type: TypePermissions.API,
     route: 'permissions',
     method: HttpMethod.GET
   }).create(),
 
   new PermissionFactory({
-    name: 'Obtener permiso',
+    name: 'Get all permission by parent permission',
+    type: TypePermissions.API,
+    route: 'permissions/parent/:id?',
+    method: HttpMethod.GET
+  }).create(),
+
+  new PermissionFactory({
+    name: 'Get permission',
     type: TypePermissions.API,
     route: 'permissions/:id',
     method: HttpMethod.GET
   }).create(),
 
   new PermissionFactory({
-    name: 'Actualizar permiso',
+    name: 'Update permission',
     type: TypePermissions.API,
     route: 'permissions/:id',
     method: HttpMethod.PUT
   }).create(),
 
   new PermissionFactory({
-    name: 'Eliminar permiso',
+    name: 'Delete permission',
     type: TypePermissions.API,
     route: 'permissions/:id',
     method: HttpMethod.DELETE
   }).create(),
 
+  new PermissionFactory({
+    name: 'Get all users',
+    type: TypePermissions.API,
+    route: 'user',
+    method: HttpMethod.GET
+  }).create(),
 
+  new PermissionFactory({
+    name: 'Get one user',
+    type: TypePermissions.API,
+    route: 'user/:id',
+    method: HttpMethod.GET
+  }).create(),
+  
+
+  new PermissionFactory({
+    name: 'Update user',
+    type: TypePermissions.API,
+    route: 'user/:id',
+    method: HttpMethod.PUT
+  }).create(),
+
+  /*****************************************/
+  /*    MENUS                              */
+  /*****************************************/
 
   new PermissionFactory({
     name: 'Users',
@@ -102,28 +159,10 @@ export const permissionesFactories = [
   }).create(),
 
 
+  /*****************************************/
+  /*    OPTION                              */
+  /*****************************************/
 
-  new PermissionFactory({
-    name: 'Get all users',
-    type: TypePermissions.API,
-    route: 'user',
-    method: HttpMethod.GET
-  }).create(),
-
-  new PermissionFactory({
-    name: 'Get one user',
-    type: TypePermissions.API,
-    route: 'user/:id',
-    method: HttpMethod.GET
-  }).create(),
-  
-
-  new PermissionFactory({
-    name: 'Update user',
-    type: TypePermissions.API,
-    route: 'user/:id',
-    method: HttpMethod.PUT
-  }).create(),
 
   new PermissionFactory({
     name: 'Add new user option button',

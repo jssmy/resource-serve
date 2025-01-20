@@ -8,15 +8,15 @@ import {
   Delete,
   ForbiddenException,
   HttpStatus,
+  ParseUUIDPipe,
+  Query,
+  ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { CheckPolicies } from 'src/commons/guards/check-policies';
-import { Auth } from 'src/commons/guards/auth';
-import { PermissionPolicy } from 'src/commons/policies/permission.policy';
-import { GetUser } from 'src/user/decoratos/get-user.decorator';
-import { User } from 'src/user/entities/user.entity';
 import { TypePermissions } from './types/type-permissions.type';
 
 @Controller('permissions')
@@ -28,6 +28,20 @@ export class PermissionsController {
   create(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionsService.create(createPermissionDto);
   }
+
+
+  @Get('parent/:id?')
+  @CheckPolicies(TypePermissions.API)
+  findAllByParentId(
+    @Param('id', new ParseUUIDPipe({ version: '4', optional: true})) id: string,
+    @Query('limit', new ParseIntPipe({optional: true})) limit: number,
+    @Query('page', new ParseIntPipe({optional: true})) page: number
+  ) {
+    limit = limit || 10;
+    page = page || 1;
+    return this.permissionsService.findAllByParentId(id, limit, page);
+  }
+
 
   @Get()
   @CheckPolicies(TypePermissions.API)
@@ -41,7 +55,7 @@ export class PermissionsController {
     return this.permissionsService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @CheckPolicies(TypePermissions.API)
   update(
     @Param('id') id: string,

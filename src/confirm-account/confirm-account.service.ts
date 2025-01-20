@@ -2,6 +2,7 @@ import {
   BadRequestException,
   HttpException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
@@ -27,19 +28,26 @@ export class ConfirmAccountService {
   ) {}
 
   async sendConfirmation(user: User) {
-    const accountValidation = new ConfirmAccountFactory(
-      user.id,
-      this.configService.get('MAIL_CONFIRM_EXPIRES_IN'),
-    ).create();
+    try {
 
-    await this.accountConfirmRepository.save(accountValidation);
-    this.mainService.sendMailAccountConfirmation(user, accountValidation.token);
+
+      const accountValidation = new ConfirmAccountFactory(
+        user.id,
+        this.configService.get('MAIL_CONFIRM_EXPIRES_IN'),
+      ).create();
+  
+      await this.accountConfirmRepository.save(accountValidation);
+      this.mainService.sendMailAccountConfirmation(user, accountValidation.token).finally();
+    } catch (e){
+      
+    }
   }
 
   async confrim(token: string) {
+
     const accountConfirmation = await this.accountConfirmRepository.findOne({
       where: { token, revoked: false },
-      select: { token: true, revoked: true, expiresIn: true, userId: true },
+      
     });
 
     if (!accountConfirmation) {
@@ -56,19 +64,20 @@ export class ConfirmAccountService {
       throw new HttpException('Token expired', 419);
     }
 
-    return Promise.all([
-      this.accountConfirmRepository.update(accountConfirmation.token, {
-        revoked: true,
-      }),
-      this.userRepository.update(accountConfirmation.userId, {
-        accountValidated: true,
-        accountValidatedDate: DateHelper.date().toDate(),
-      }),
-    ])
-      .then(() => new SuccessHandle('Account is validated'))
-      .catch((err) => {
-        throw new HttpException(err, err.status || 500);
-      });
+    try {
+      await  Promise.all([
+        this.accountConfirmRepository.update(accountConfirmation.token, {
+          revoked: true,
+        }),
+        this.userRepository.update(accountConfirmation.userId, {
+          accountValidated: true,
+          accountValidatedDate: DateHelper.date().toDate(),
+        }),
+      ]);
+      return new SuccessHandle('Account is validated')
+    } catch(e) {
+      throw new InternalServerErrorException('Error inesperdo');
+    }
   }
 
   async retryConfirmation(confirmDto: ConfirmAccountDto) {

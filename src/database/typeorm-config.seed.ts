@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import InitSeeder from './seeds/init.seeder';
 import { databaseConfiguration } from '../config/database/db-auth.config';
 import { Logger } from '@nestjs/common';
-import { exit } from 'process';
+
 
 (async () => {
   const log = new Logger();

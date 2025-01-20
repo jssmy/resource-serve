@@ -22,12 +22,16 @@ export class Role {
   @Column('boolean', { default: true })
   state: boolean;
 
-  @OneToMany(() => User, (user) => user.role)
+  @OneToMany(() => User, (user) => user.role, { onDelete: 'SET NULL' })
   users: User;
 
   @ManyToMany(() => Permission, (permission) => permission.roles)
   @JoinTable()
   permissions: Permission[];
+
+
+  @Column('boolean', { default: false})
+  protected: boolean;
 
   @CreateDateColumn()
   readonly createdAt: Date;

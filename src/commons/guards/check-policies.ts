@@ -4,9 +4,9 @@ import { PolicyGuard } from './policy/policy.guard';
 import { SetPermissionType } from '../decorators/set-permission-type/set-permission-type.decorator';
 import { TypePermissions } from 'src/permissions/types/type-permissions.type';
 
-export function CheckPolicies(type: TypePermissions) {
+export function CheckPolicies(...type: TypePermissions[]) {
   return applyDecorators(
-    SetPermissionType(type),
+    SetPermissionType(...type),
     UseGuards(AuthGuard('jwt-access'), PolicyGuard),
   );
 }

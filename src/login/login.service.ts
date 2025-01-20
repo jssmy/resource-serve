@@ -40,17 +40,17 @@ export class LoginService {
       throw new ForbiddenException('User is inactive');
     }
 
-    if (!user.accountValidated) {
-      throw new ForbiddenException('Please validate your account');
-    }
-
     const passwordPassedOk = ByCript.compareSync(
       loginDto.password,
       user.password,
     );
 
     if (!passwordPassedOk) {
-      throw new ForbiddenException('Credentials are incorrect');
+      throw new UnauthorizedException('Credentials are incorrect');
+    }
+
+    if (!user.accountValidated) {
+      throw new ForbiddenException('Please validate your account');
     }
 
     return this.generateToken.token(user);

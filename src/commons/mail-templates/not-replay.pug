@@ -1,9 +1,9 @@
 doctype html
 head
   title
-  meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
   style(type='text/css').
     @media screen {
     @font-face {
@@ -86,46 +86,55 @@ head
 // HIDDEN PREHEADER TEXT
 div(style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;")
   | &iexcl;Estamos encantados de tenerte aqu&iacute;! Prep&aacute;rese para sumergirse en su nueva cuenta.
-table(border='0' cellpadding='0' cellspacing='0' width='100%')
+table(border='0', cellpadding='0', cellspacing='0', width='100%')
   // LOGO
   tr
-    td(bgcolor='#FFA73B' align='center')
-      table(border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;')
+    td(bgcolor='#FFA73B', align='center')
+      table(border='0', cellpadding='0', cellspacing='0', width='100%', style='max-width: 600px;')
         tr
-          td(align='center' valign='top' style='padding: 40px 10px 40px 10px;')  
+          td(align='center', valign='top', style='padding: 40px 10px 40px 10px;')  
   tr
-    td(bgcolor='#FFA73B' align='center' style='padding: 0px 10px 0px 10px;')
-      table(border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;')
+    td(bgcolor='#FFA73B', align='center', style='padding: 0px 10px 0px 10px;')
+      table(border='0', cellpadding='0', cellspacing='0', width='100%', style='max-width: 600px;')
         tr
-          td(bgcolor='#ffffff' align='center' valign='top' style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;")
-            h1(style='font-size: 48px; font-weight: 400; margin: 2;') &iexcl;Bienvenido a Barbacode!
-            img(src=' https://img.icons8.com/clouds/100/000000/handshake.png' width='125' height='120' style='display: block; border: 0px;')
+          td(bgcolor='#ffffff', align='center', valign='top', style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;")
+            h1(style='font-size: 48px; font-weight: 400; margin: 2;') &iexcl;Bienvenido a HardCodeando!
+            img(src=' https://img.icons8.com/clouds/100/000000/handshake.png', width='125', height='120', style='display: block; border: 0px;')
   tr
-    td(bgcolor='#f4f4f4' align='center' style='padding: 0px 10px 0px 10px;')
-      table(border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;')
+    td(bgcolor='#f4f4f4', align='center', style='padding: 0px 10px 0px 10px;')
+      table(border='0', cellpadding='0', cellspacing='0', width='100%', style='max-width: 600px;')
         tr
-          td(bgcolor='#ffffff' align='left' style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;")
+          td(bgcolor='#ffffff', align='left', style="padding: 20px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;")
             p(style='margin: 0;')
               | Estamos emocionados de que te hayas unido a nosotros. Antes de comenzar, necesitamos confirmar que esta direcci&oacute;n de correo electr&oacute;nico es v&aacute;lida y pertenece a ti.
             br
-            p(style='margin: 0;') Por favor, haz clic en el siguiente enlace para confirmar tu cuenta:
         tr
-          td(bgcolor='#ffffff' align='left')
-            table(width='100%' border='0' cellspacing='0' cellpadding='0')
+          td(bgcolor='#ffffff', align='left', style="color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400;")
+            table(width='100%', border='0', cellspacing='0', cellpadding='0')
               tr
-                td(bgcolor='#ffffff' align='center' style='padding: 20px 30px 60px 30px;')
-                  table(border='0' cellspacing='0' cellpadding='0')
+                td(bgcolor='#ffffff', align='center', style='padding: 20px 30px 0px 30px;')
+                  table(border='0', cellspacing='0', cellpadding='0')
                     tr
-                      td(align='center' style='border-radius: 3px;')
-                        a(href=url target='_blank' style='font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius:50px; border: 1px solid #FFA73B; display: inline-block; background-color: #FFA73B') Confirmar cuenta
+                      td(style='padding-bottom: 10px')
+                        | Contrase&ntilde;a generada:
+                    tr
+                      td
+                        div(style='padding: 15px; background-color: #FFA73B; color: white; font-size: 20px; text-align: center')= PASSWORD_GENERATED
+                    tr
+                      td(style='padding-top: 40px; padding-bottom: 10px')
+                        p(style='margin: 0;') Por favor, haz clic en el siguiente enlace para confirmar tu cuenta:
+                    tr
+                      td(align='center', style='border-radius: 3px;')
+                        a(href=URL_CONFIRMATION_ACCOUNT target='_blank', style='font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px  25px; border-radius:50px; border: 1px solid #FFA73B; display: inline-block; background-color: #FFA73B') Confirmar cuenta
         // COPY
         tr
-          td(bgcolor='#ffffff' align='left' style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;")
+          td(bgcolor='#ffffff', align='left', style="padding: 35px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;")
             p(style='margin: 0;')
               | Si no has solicitado esta cuenta o recibido este correo por error, puedes ignorarlo de forma segura.
         tr
-          td(bgcolor='#ffffff' align='left' style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;")
+          td(bgcolor='#ffffff', align='left', style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;")
             p(style='margin: 0;')
-              | Gracias por unirte
-              br
-              | BBCode Equipo de soporte
+              strong
+                | Gracias por unirte
+                br
+                | HardCodeando Equipo de soporte
