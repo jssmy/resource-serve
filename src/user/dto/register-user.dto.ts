@@ -3,7 +3,6 @@ import {
   IsInt,
   IsOptional,
   IsString,
-  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -27,7 +26,6 @@ export class RegisterUserDto {
   @IsString({ each: true })
   @IsOptional()
   avatars?: string[];
-
 
   @IsInt()
   roleId: number;

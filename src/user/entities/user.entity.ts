@@ -34,7 +34,6 @@ export class User {
   @Column('boolean', { default: false })
   accountValidated?: boolean;
 
-
   @Column('boolean', { default: false })
   protected?: boolean;
 
@@ -44,9 +43,9 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users)
   role: Role;
 
-  @Column({ name: 'roleId', nullable: false})
+  @Column({ name: 'roleId', nullable: false })
   roleId: number;
-  
+
   @CreateDateColumn()
   createdAt?: Date;
 

@@ -21,22 +21,21 @@ export class RolesService {
     private readonly roleRepository: Repository<Role>,
     @InjectRepository(Permission)
     private readonly permissionRepository: Repository<Permission>,
-  ) { }
+  ) {}
 
   async create(createRoleDto: CreateRoleDto) {
     try {
-
       const permissions = await this.permissionRepository.find({
-        where: { id: In(createRoleDto.permissions) }
+        where: { id: In(createRoleDto.permissions) },
       });
 
       if (permissions.length !== createRoleDto.permissions.length) {
         throw new BadRequestException('Some permissions does not exist');
       }
 
-      const role = await this.roleRepository.save({
+      await this.roleRepository.save({
         name: createRoleDto.name,
-        permissions
+        permissions,
       });
 
       return new CreatedHandle('Role has been created');
@@ -46,10 +45,10 @@ export class RolesService {
   }
 
   async findAll(limit: number, page: number) {
-
     const skip = (page - 1) * limit;
 
-    const [data, total] = await this.roleRepository.createQueryBuilder('roles')
+    const [data, total] = await this.roleRepository
+      .createQueryBuilder('roles')
       .skip(skip)
       .take(limit)
       .getManyAndCount();
@@ -59,15 +58,14 @@ export class RolesService {
       total,
       currentPage: page,
       totalPages: Math.ceil(total / limit),
-      limit
+      limit,
     };
-
   }
 
   async findOne(id: number) {
     const role = await this.roleRepository.findOne({
       where: { id },
-      relations: ['permissions']
+      relations: ['permissions'],
     });
 
     if (!role) {
@@ -80,20 +78,25 @@ export class RolesService {
     //TODO: add permissions updated relations
     const role = await this.findOne(id);
 
-
     const permissions = await this.permissionRepository.find({
-      where: { id: In(updateRoleDto.permissions) }
+      where: { id: In(updateRoleDto.permissions) },
     });
 
     if (permissions.length !== updateRoleDto.permissions.length) {
       throw new BadRequestException('Some permissions does not exist');
     }
 
-    const permissionsProtected = permissions.filter(permission => permission.protected);
-    const currentPermissionProtected = role.permissions.filter(permission => permission.protected);
+    const permissionsProtected = permissions.filter(
+      (permission) => permission.protected,
+    );
+    const currentPermissionProtected = role.permissions.filter(
+      (permission) => permission.protected,
+    );
 
-
-    if (currentPermissionProtected.length < permissionsProtected.length && role.protected) {
+    if (
+      currentPermissionProtected.length < permissionsProtected.length &&
+      role.protected
+    ) {
       throw new ForbiddenException('Some permissiones cant not removed');
     }
 
@@ -109,8 +112,6 @@ export class RolesService {
   }
 
   async remove(id: number) {
-
-
     const role = await this.findOne(id);
 
     if (role.protected) {

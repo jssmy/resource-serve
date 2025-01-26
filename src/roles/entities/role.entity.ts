@@ -29,8 +29,7 @@ export class Role {
   @JoinTable()
   permissions: Permission[];
 
-
-  @Column('boolean', { default: false})
+  @Column('boolean', { default: false })
   protected: boolean;
 
   @CreateDateColumn()

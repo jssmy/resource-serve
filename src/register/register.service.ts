@@ -25,16 +25,18 @@ export class RegisterService {
       // set password for encrypt
       const user = new UserFactory({
         ...createUserDto,
-        password
+        password,
       }).create();
 
       await this.userRepository.save(user);
 
       /// set origin password for send by mail confirmation
-      this.confirmAccountService.sendConfirmation({
-        ...user,
-        password
-      }).finally();
+      this.confirmAccountService
+        .sendConfirmation({
+          ...user,
+          password,
+        })
+        .finally();
       return new CreatedHandle('User was created successfully');
     } catch (err) {
       this.handleDBException(err);

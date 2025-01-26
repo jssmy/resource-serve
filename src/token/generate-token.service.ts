@@ -129,7 +129,6 @@ export class GenerateTokenService {
   }
 
   logout(accessToken: string) {
-
     const { id }: AccessToken = this.jwtService.decode(accessToken, {
       json: true,
     });

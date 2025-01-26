@@ -6,10 +6,7 @@ import { Role } from 'src/roles/entities/role.entity';
 
 export default class AsignPermissionsToRolesSeeder implements Seeder {
   public async run(dataSource: DataSource): Promise<any> {
-
-    const PERMISSIONS_FACTORIES = [
-      ...permissionesFactories,
-    ]
+    const PERMISSIONS_FACTORIES = [...permissionesFactories];
 
     const repositoryRole = dataSource.getRepository(Role);
     const repositoryPermission = dataSource.getRepository(Permission);
@@ -21,7 +18,7 @@ export default class AsignPermissionsToRolesSeeder implements Seeder {
     });
 
     // first clean relationship fot not duplicate
-    
+
     rootRole.permissions = [];
 
     const toClean = await repositoryRole.preload(rootRole);

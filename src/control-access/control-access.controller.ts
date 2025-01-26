@@ -1,6 +1,5 @@
-import { Controller, Get, Header, HttpCode, HttpStatus, Post, Req, Response } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { SuccessHandle } from 'src/commons/classes/success.handle';
-import { GetRefererPath } from 'src/commons/decorators/get-refer-path/get-referer-path.decorator';
 import { Auth } from 'src/commons/guards/auth';
 import { CheckPolicies } from 'src/commons/guards/check-policies';
 import { TypePermissions } from 'src/permissions/types/type-permissions.type';
@@ -9,31 +8,19 @@ import { User } from 'src/user/entities/user.entity';
 
 @Controller('control-access')
 export class ControlAccessController {
+  @Post()
+  @Auth()
+  @CheckPolicies(TypePermissions.MENU, TypePermissions.OPTION)
+  @HttpCode(HttpStatus.OK)
+  hasValidAuth() {
+    return new SuccessHandle('Success auth access');
+  }
 
-
-
-    @Post('page')
-    @Auth()
-    hasAccessToPage(
-        @GetUser() user: User,
-        @GetRefererPath() refererPath: string
-    ) {
-    }
-
-    @Post()
-    @Auth()
-    @CheckPolicies(TypePermissions.MENU, TypePermissions.OPTION)
-    @HttpCode(HttpStatus.OK)
-    hasValidAuth() {
-        return new SuccessHandle('Success auth access');
-    }
-
-
-    @Get('permissions')
-    @Auth()
-    getPermissionAuth(
-        @GetUser() user: User
-    ) {
-        return user.role.permissions.filter(permission => permission.type !== TypePermissions.API);
-    }
+  @Get('permissions')
+  @Auth()
+  getPermissionAuth(@GetUser() user: User) {
+    return user.role.permissions.filter(
+      (permission) => permission.type !== TypePermissions.API,
+    );
+  }
 }

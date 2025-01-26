@@ -16,15 +16,13 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { databaseConfiguration } from './config/database/db-auth.config';
 import { ControlAccessModule } from './control-access/control-access.module';
 
-
-
 @Module({
   imports: [
     UserModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      inject: [ ConfigService ],
+      inject: [ConfigService],
       useFactory: (config: ConfigService) => databaseConfiguration(config),
     }),
     MailModule,
@@ -36,7 +34,7 @@ import { ControlAccessModule } from './control-access/control-access.module';
     ConfirmAccountModule,
     RolesModule,
     PermissionsModule,
-    ControlAccessModule
+    ControlAccessModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,11 +3,8 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
-  ForbiddenException,
-  HttpStatus,
   ParseUUIDPipe,
   Query,
   ParseIntPipe,
@@ -21,7 +18,7 @@ import { TypePermissions } from './types/type-permissions.type';
 
 @Controller('permissions')
 export class PermissionsController {
-  constructor(private readonly permissionsService: PermissionsService) { }
+  constructor(private readonly permissionsService: PermissionsService) {}
 
   @Post()
   @CheckPolicies(TypePermissions.API)
@@ -29,19 +26,18 @@ export class PermissionsController {
     return this.permissionsService.create(createPermissionDto);
   }
 
-
   @Get('parent/:id?')
   @CheckPolicies(TypePermissions.API)
   findAllByParentId(
-    @Param('id', new ParseUUIDPipe({ version: '4', optional: true})) id: string,
-    @Query('limit', new ParseIntPipe({optional: true})) limit: number,
-    @Query('page', new ParseIntPipe({optional: true})) page: number
+    @Param('id', new ParseUUIDPipe({ version: '4', optional: true }))
+    id: string,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number,
   ) {
     limit = limit || 10;
     page = page || 1;
     return this.permissionsService.findAllByParentId(id, limit, page);
   }
-
 
   @Get()
   @CheckPolicies(TypePermissions.API)
@@ -69,5 +65,4 @@ export class PermissionsController {
   remove(@Param('id') id: string) {
     return this.permissionsService.remove(id);
   }
-
 }

@@ -17,7 +17,7 @@ import { TypePermissions } from 'src/permissions/types/type-permissions.type';
 
 @Controller('roles')
 export class RolesController {
-  constructor(private readonly rolesService: RolesService) { }
+  constructor(private readonly rolesService: RolesService) {}
 
   @Post()
   @CheckPolicies(TypePermissions.API)
@@ -25,15 +25,14 @@ export class RolesController {
     return this.rolesService.create(createRoleDto);
   }
 
-
   @Get()
   @CheckPolicies(TypePermissions.API)
   findAll(
-    @Query('limit', new ParseIntPipe( { optional: true })) limit: number,
-    @Query('page',  new ParseIntPipe( { optional: true })) page: number) {
-
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number,
+  ) {
     limit = limit || 10;
-    page = page ||  1;
+    page = page || 1;
 
     return this.rolesService.findAll(limit, page);
   }

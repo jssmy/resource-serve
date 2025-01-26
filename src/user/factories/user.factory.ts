@@ -1,17 +1,17 @@
 import { ByCript } from 'src/commons/classes/bycript';
 import { User } from '../entities/user.entity';
 import { RegisterUserDto } from '../dto/register-user.dto';
-import { Password } from 'src/commons/utils/password.util';
 
-type UserConfig = Omit<RegisterUserDto, 'confirmPassword'> & { password: string };
+type UserConfig = Omit<RegisterUserDto, 'confirmPassword'> & {
+  password: string;
+};
 
 export class UserFactory {
   constructor(private readonly user: Partial<UserConfig>) {}
   /**
    * GENERATE PASSW0RD
-  */
+   */
   create(): User {
-
     const hashPassword = ByCript.hasSync(this.user.password);
 
     return {
@@ -19,7 +19,7 @@ export class UserFactory {
       email: this.user.email?.toLocaleLowerCase(),
       avatars: this.avatars,
       password: hashPassword,
-      roleId:  this.user.roleId
+      roleId: this.user.roleId,
     } as User;
   }
 

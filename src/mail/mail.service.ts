@@ -11,24 +11,22 @@ export class MailService {
   ) {}
 
   async sendMailAccountConfirmation(user: User, token: string) {
-    const URL_CONFIRMATION_ACCOUNT = `${this.config.get('MAIL_CONFIRM_URL')}/${token}`;
+    const URL_CONFIRMATION_ACCOUNT = `${this.config.get(
+      'MAIL_CONFIRM_URL',
+    )}/${token}`;
 
-    const PASSWORD_GENERATED =  user.password;
+    const PASSWORD_GENERATED = user.password;
     try {
-
-      return this.mailService
-      .sendMail({
+      return this.mailService.sendMail({
         to: user.email,
         subject: 'Confirmación de cuenta',
         template: 'not-replay',
         context: {
           URL_CONFIRMATION_ACCOUNT,
-          PASSWORD_GENERATED
+          PASSWORD_GENERATED,
         },
-    });
-    } catch(e) {
-    }
-      
+      });
+    } catch (e) {}
   }
 
   sendMailResetPassword(user: User, token: string) {

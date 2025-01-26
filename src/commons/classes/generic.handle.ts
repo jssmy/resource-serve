@@ -1,6 +1,6 @@
 export class GenericHandle {
-    constructor(
-        public status: number,
-        public message: string
-    ) {}
+  constructor(
+    public status: number,
+    public message: string,
+  ) {}
 }

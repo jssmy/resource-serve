@@ -18,7 +18,7 @@ export class PermissionsService {
   constructor(
     @InjectRepository(Permission)
     private readonly permissionRepository: Repository<Permission>,
-  ) { }
+  ) {}
 
   async create(createPermissionDto: CreatePermissionDto) {
     try {
@@ -30,17 +30,15 @@ export class PermissionsService {
     }
   }
 
-
   findAll() {
     return this.permissionRepository.find();
   }
 
   async findAllByParentId(id: string, limit: number, page: number) {
-
     const skip = (page - 1) * limit;
 
-
-    const queryBuilder = this.permissionRepository.createQueryBuilder('permission');
+    const queryBuilder =
+      this.permissionRepository.createQueryBuilder('permission');
 
     if (id) {
       queryBuilder.where('permission.parent_id = :parentId', { parentId: id });
@@ -48,18 +46,20 @@ export class PermissionsService {
       queryBuilder.where('permission.parent_id IS NULL');
     }
 
-    const [data, total] = await queryBuilder.skip(skip).take(limit).getManyAndCount();
+    const [data, total] = await queryBuilder
+      .skip(skip)
+      .take(limit)
+      .getManyAndCount();
     return {
       data,
       total,
       currentPage: page,
       totalPages: Math.ceil(total / limit),
-      limit
-    }
+      limit,
+    };
   }
 
   async findOne(id: string) {
-
     const permission = await this.permissionRepository.findOneBy({ id });
 
     if (!permission) {
@@ -70,8 +70,6 @@ export class PermissionsService {
   }
 
   async update(id: string, updatePermissionDto: UpdatePermissionDto) {
-
-
     // const permission = await this.findOne(id);
 
     // if (permission.protected) {
@@ -81,7 +79,7 @@ export class PermissionsService {
     const uptaded = await this.permissionRepository.update(id, {
       method: null,
       route: null,
-      ...updatePermissionDto
+      ...updatePermissionDto,
     });
 
     if (uptaded.affected <= 0) {
@@ -92,18 +90,15 @@ export class PermissionsService {
   }
 
   async remove(id: string) {
-
     const permission = await this.findOne(id);
 
     if (permission.protected) {
       throw new ForbiddenException('This permission can not remove');
     }
 
-
     this.permissionRepository.remove(permission);
     return new SuccessHandle('Permission removed');
   }
-
 
   private handleDBException(error) {
     if (error.code === 'ER_DUP_ENTRY') {

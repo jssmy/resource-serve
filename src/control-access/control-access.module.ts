@@ -4,8 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   controllers: [ControlAccessController],
-  imports: [
-    TypeOrmModule
-  ]
+  imports: [TypeOrmModule],
 })
 export class ControlAccessModule {}

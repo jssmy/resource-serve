@@ -29,25 +29,21 @@ export class ConfirmAccountService {
 
   async sendConfirmation(user: User) {
     try {
-
-
       const accountValidation = new ConfirmAccountFactory(
         user.id,
         this.configService.get('MAIL_CONFIRM_EXPIRES_IN'),
       ).create();
-  
+
       await this.accountConfirmRepository.save(accountValidation);
-      this.mainService.sendMailAccountConfirmation(user, accountValidation.token).finally();
-    } catch (e){
-      
-    }
+      this.mainService
+        .sendMailAccountConfirmation(user, accountValidation.token)
+        .finally();
+    } catch (e) {}
   }
 
   async confrim(token: string) {
-
     const accountConfirmation = await this.accountConfirmRepository.findOne({
       where: { token, revoked: false },
-      
     });
 
     if (!accountConfirmation) {
@@ -65,7 +61,7 @@ export class ConfirmAccountService {
     }
 
     try {
-      await  Promise.all([
+      await Promise.all([
         this.accountConfirmRepository.update(accountConfirmation.token, {
           revoked: true,
         }),
@@ -74,8 +70,8 @@ export class ConfirmAccountService {
           accountValidatedDate: DateHelper.date().toDate(),
         }),
       ]);
-      return new SuccessHandle('Account is validated')
-    } catch(e) {
+      return new SuccessHandle('Account is validated');
+    } catch (e) {
       throw new InternalServerErrorException('Error inesperdo');
     }
   }

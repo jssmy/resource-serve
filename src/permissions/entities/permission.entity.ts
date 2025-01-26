@@ -30,7 +30,7 @@ export class Permission {
   @Column('enum', { enum: TypePermissions, default: TypePermissions.MENU })
   type: TypePermissions;
 
-  @Column('enum',  {  enum: HttpMethod, nullable: true  })
+  @Column('enum', { enum: HttpMethod, nullable: true })
   method: HttpMethod;
 
   @Column('boolean', { default: true })
@@ -42,7 +42,10 @@ export class Permission {
   @ManyToMany(() => Role, (role) => role.permissions)
   roles: Role;
 
-  @ManyToOne(() => Permission, (permission) => permission.children, { nullable: true , onDelete: 'CASCADE'})
+  @ManyToOne(() => Permission, (permission) => permission.children, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'parent_id' }) // Nombre de la columna que define la relación padre
   parent?: Permission;
 
@@ -52,7 +55,6 @@ export class Permission {
   // Relación de auto-referencia con hijos
   @OneToMany(() => Permission, (permission) => permission.parent)
   children?: Permission[];
-
 
   @CreateDateColumn()
   readonly createdAt?: Date;

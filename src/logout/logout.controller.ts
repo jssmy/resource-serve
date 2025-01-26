@@ -1,4 +1,4 @@
-import { Controller, Delete, UseGuards, Headers, Post } from '@nestjs/common';
+import { Controller, UseGuards, Headers, Post } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
 import { trim } from 'src/commons/utils/string.util';
@@ -11,6 +11,8 @@ export class LogoutController {
   @Post()
   @UseGuards(AuthGuard('jwt-access'))
   logout(@Headers('authorization') accessToken: string) {
-    return this.tokenService.logout(trim(accessToken.replace('Bearer', ''.trim()), ' '));
+    return this.tokenService.logout(
+      trim(accessToken.replace('Bearer', ''.trim()), ' '),
+    );
   }
 }

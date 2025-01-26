@@ -1,4 +1,10 @@
-import { IsArray, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateRoleDto {
   @IsString()
@@ -6,9 +12,7 @@ export class CreateRoleDto {
   @MaxLength(155)
   name: string;
 
-
   @IsArray()
   @IsUUID('4', { each: true })
-  permissions: string [];
-
+  permissions: string[];
 }
