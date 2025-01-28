@@ -1,7 +1,7 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
@@ -33,11 +33,11 @@ export class LoginService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Credentials are incorrect');
+      throw new BadRequestException('Credenciales incorrectas');
     }
 
     if (!user.state) {
-      throw new ForbiddenException('User is inactive');
+      throw new ForbiddenException('Usuario no encontrado');
     }
 
     const passwordPassedOk = ByCript.compareSync(
@@ -46,11 +46,11 @@ export class LoginService {
     );
 
     if (!passwordPassedOk) {
-      throw new UnauthorizedException('Credentials are incorrect');
+      throw new BadRequestException('Credenciales incorrectas');
     }
 
     if (!user.accountValidated) {
-      throw new ForbiddenException('Please validate your account');
+      throw new ForbiddenException('Por favor valida tu cuenta de correco');
     }
 
     return this.generateToken.token(user);
