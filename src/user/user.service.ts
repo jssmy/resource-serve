@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
@@ -45,6 +46,21 @@ export class UserService {
       totalPages: Math.ceil(total / limit),
       limit,
     };
+  }
+
+
+  async findOne(id: string) {
+    const user = await this.userRepository.findOne({ where: { id } , select: {
+      name: true,
+      id: true,
+      avatars: true,
+    }});
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async delete(id: string) {

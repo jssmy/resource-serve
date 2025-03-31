@@ -23,9 +23,17 @@ export class UserController {
   ) {
     page = page || 1;
     limit = limit || 10;
-
     return this.userService.findAll(page, limit);
   }
+
+
+  @Get('/:id')
+  findOne(
+    @Param('id', new ParseUUIDPipe()) id: string
+  ) {
+    return this.userService.findOne(id);
+  }
+
 
   @Delete(':id')
   delete(@Param('id', new ParseUUIDPipe()) id: string) {
