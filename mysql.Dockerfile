@@ -1,6 +1,5 @@
 # Usa la imagen oficial de MySQL como base
-ARG MYSQL_VERSION
-
+ARG MYSQL_VERSION=8.0
 FROM mysql:${MYSQL_VERSION}
 
 
