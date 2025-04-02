@@ -52,6 +52,7 @@ export class UserService {
   async findOne(id: string) {
     const user = await this.userRepository.findOne({ where: { id } , select: {
       name: true,
+      surnames: true,
       id: true,
       avatars: true,
     }});
@@ -65,11 +66,6 @@ export class UserService {
 
   async delete(id: string) {
     await this.userRepository.delete(id);
-    // const udpated = await this.userRepository.update(id, { state: false });
-
-    // if (udpated.affected <= 0) {
-    //     throw new NotFoundException('This user doest not exist');
-    // }
 
     return new SuccessHandle('User was removed');
   }
