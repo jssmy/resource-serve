@@ -10,6 +10,7 @@ import {
 import { UserService } from './user.service';
 import { CheckPolicies } from 'src/commons/guards/check-policies';
 import { TypePermissions } from 'src/permissions/types/type-permissions.type';
+import { ApiGetUsers, ApiGetUser, ApiDeleteUser } from '../config/doc';
 
 @Controller('user')
 export class UserController {
@@ -17,6 +18,7 @@ export class UserController {
 
   @Get()
   @CheckPolicies(TypePermissions.API)
+  @ApiGetUsers()
   findAll(
     @Query('page', new ParseIntPipe({ optional: true })) page: number,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number,
@@ -26,16 +28,16 @@ export class UserController {
     return this.userService.findAll(page, limit);
   }
 
-
   @Get('/:id')
+  @ApiGetUser()
   findOne(
     @Param('id', new ParseUUIDPipe()) id: string
   ) {
     return this.userService.findOne(id);
   }
 
-
   @Delete(':id')
+  @ApiDeleteUser()
   delete(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.delete(id);
   }
