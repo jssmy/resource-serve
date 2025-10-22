@@ -4,7 +4,7 @@ import { ApiResetPasswordPasswordProperty, ApiResetPasswordConfirmPasswordProper
 
 export class ResetPasswordDto {
   @ApiResetPasswordPasswordProperty()
-  @MaxLength(15)
+  @MaxLength(255)
   @MinLength(8)
   @Matches(PasswordRegx, {
     message:

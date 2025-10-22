@@ -66,17 +66,16 @@ const successResponseSchema = {
 export function ApiSendResetPasswordMail() {
   return applyDecorators(
     ApiResetPasswordTag(),
-    ApiBearerAuth('JWT-auth'),
     ApiOperation({ 
-      summary: 'Enviar email de reset de contraseña',
-      description: 'Envía un email con un token para resetear la contraseña del usuario'
+      summary: 'Solicitar reset de contraseña',
+      description: 'Solicita un reset de contraseña enviando un email con un token al usuario'
     }),
     ApiBody({
       type: 'object',
       schema: resetPasswordRequestSchema,
       description: 'Datos para solicitar el reset de contraseña'
     }),
-    ApiSuccessResponse('Email de reset enviado exitosamente', {
+    ApiSuccessResponse('Solicitud de reset enviada exitosamente', {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
@@ -105,10 +104,9 @@ export function ApiSendResetPasswordMail() {
 export function ApiResetPassword() {
   return applyDecorators(
     ApiResetPasswordTag(),
-    ApiBearerAuth('JWT-auth'),
     ApiOperation({ 
-      summary: 'Resetear contraseña con token',
-      description: 'Resetea la contraseña del usuario usando el token enviado por email'
+      summary: 'Cambiar contraseña con token',
+      description: 'Cambia la contraseña del usuario usando el token válido enviado por email'
     }),
     ApiParam({ 
       name: 'token', 
@@ -122,7 +120,7 @@ export function ApiResetPassword() {
       schema: resetPasswordSchema,
       description: 'Nueva contraseña y confirmación'
     }),
-    ApiSuccessResponse('Contraseña reseteada exitosamente', {
+    ApiSuccessResponse('Contraseña cambiada exitosamente', {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
@@ -177,6 +175,68 @@ export function ApiResetPassword() {
         }
       }
     }),
-    ApiAuthResponses()
+    ApiErrorResponses()
+  );
+}
+
+/**
+ * Decorador para validar token de reset password
+ */
+export function ApiValidateResetPasswordToken() {
+  return applyDecorators(
+    ApiResetPasswordTag(),
+    ApiOperation({ 
+      summary: 'Validar token de reset de contraseña',
+      description: 'Valida si un token de reset de contraseña es válido y no ha expirado'
+    }),
+    ApiParam({ 
+      name: 'token', 
+      description: 'Token de reset de contraseña a validar (UUID)',
+      example: '123e4567-e89b-12d3-a456-426614174000',
+      type: 'string',
+      format: 'uuid'
+    }),
+    ApiSuccessResponse('Token válido', {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        message: { type: 'string', example: 'Token is valid' }
+      }
+    }),
+    ApiResponse({
+      status: 400,
+      description: 'Token UUID inválido',
+      schema: {
+        type: 'object',
+        properties: {
+          statusCode: { type: 'number', example: 400 },
+          message: { type: 'string', example: 'Validation failed (uuid is expected)' },
+          error: { type: 'string', example: 'Bad Request' }
+        }
+      }
+    }),
+    ApiResponse({
+      status: 404,
+      description: 'Token no encontrado',
+      schema: {
+        type: 'object',
+        properties: {
+          statusCode: { type: 'number', example: 404 },
+          message: { type: 'string', example: 'Token not found' }
+        }
+      }
+    }),
+    ApiResponse({
+      status: 419,
+      description: 'Token expirado',
+      schema: {
+        type: 'object',
+        properties: {
+          statusCode: { type: 'number', example: 419 },
+          message: { type: 'string', example: 'Token is expired' }
+        }
+      }
+    }),
+    ApiErrorResponses()
   );
 }

@@ -2,6 +2,7 @@ import {
   BadRequestException,
   HttpException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.tdo';
@@ -20,6 +21,7 @@ import { UserFactory } from 'src/user/factories/user.factory';
 
 @Injectable()
 export class ResetPasswordService {
+  private readonly logger = new Logger(ResetPasswordService.name);
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -32,8 +34,17 @@ export class ResetPasswordService {
     const email = resetPasswordDto.email.toLocaleLowerCase();
 
     const user = await this.userRepository.findOne({
-      where: { state: true, accountValidated: true },
+      where: { state: true, accountValidated: true, email },
+      select: {
+        id: true,
+        name: true,
+        surnames: true,
+        email: true,
+      },
     });
+    
+
+    this.logger.log(`User found: ${JSON.stringify(user)}`);
 
     if (!user) {
       throw new NotFoundException('Email account is not found');
@@ -94,5 +105,29 @@ export class ResetPasswordService {
     this.resetPasswordRepository.update(resetPassword.token, { revoked: true });
     this.mailService.sendMailResetPasswordConfirmation(user);
     return new SuccessHandle('Password was reset');
+  }
+
+  async validateToken(token: string) {
+    const resetPassword = await this.resetPasswordRepository.findOne({
+      where: { revoked: false, token },
+    });
+
+    this.logger.log(`Reset password found: ${JSON.stringify(resetPassword)}`);
+
+    if (!resetPassword) {
+      throw new NotFoundException('Token not found');
+    }
+
+    const isExpiredToken =
+      DateHelper.date(resetPassword.expiresIn).diff(
+        DateHelper.date(),
+        'hours',
+      ) <= 0;
+
+    if (isExpiredToken) {
+      throw new HttpException('Token is expired', 419);
+    }
+
+    return new SuccessHandle('Token is valid');
   }
 }
