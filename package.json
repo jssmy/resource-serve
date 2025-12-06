@@ -92,5 +92,10 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "overrides": {
+    "glob": "^10.5.0",
+    "html-minifier": "^5.0.0",
+    "nodemailer": "^7.0.11"
   }
 }
