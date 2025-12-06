@@ -11,7 +11,7 @@ export class ResetPasswordDto {
   @MinLength(8)
   @Matches(passwordRegx, {
     message:
-      'Invalid password. Please include at least one lowercase letter, one uppercase letter, one digit, one special character, and ensure a minimum length of 8 characters.',
+      'Contraseña inválida. Por favor incluya al menos una letra minúscula, una letra mayúscula, un dígito, un carácter especial y asegúrese de que tenga una longitud mínima de 8 caracteres.',
   })
   password: string;
 

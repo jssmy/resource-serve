@@ -93,7 +93,7 @@ export function ApiSendResetPasswordMail() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 404 },
-          message: { type: 'string', example: 'Email account is not found' },
+          message: { type: 'string', example: 'Cuenta de email no encontrada' },
         },
       },
     }),
@@ -129,7 +129,10 @@ export function ApiResetPassword() {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
-        message: { type: 'string', example: 'Password was reset' },
+        message: {
+          type: 'string',
+          example: 'Contraseña restablecida exitosamente',
+        },
       },
     }),
     ApiResponse({
@@ -156,7 +159,7 @@ export function ApiResetPassword() {
           statusCode: { type: 'number', example: 400 },
           message: {
             type: 'string',
-            example: 'Confirm password is not correct',
+            example: 'La confirmación de contraseña no es correcta',
           },
         },
       },
@@ -168,7 +171,7 @@ export function ApiResetPassword() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 404 },
-          message: { type: 'string', example: 'Token not found' },
+          message: { type: 'string', example: 'Token no encontrado' },
         },
       },
     }),
@@ -179,7 +182,7 @@ export function ApiResetPassword() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 419 },
-          message: { type: 'string', example: 'Token is expired' },
+          message: { type: 'string', example: 'Token expirado' },
         },
       },
     }),
@@ -209,7 +212,7 @@ export function ApiValidateResetPasswordToken() {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
-        message: { type: 'string', example: 'Token is valid' },
+        message: { type: 'string', example: 'Token válido' },
       },
     }),
     ApiResponse({
@@ -234,7 +237,7 @@ export function ApiValidateResetPasswordToken() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 404 },
-          message: { type: 'string', example: 'Token not found' },
+          message: { type: 'string', example: 'Token no encontrado' },
         },
       },
     }),
@@ -245,7 +248,7 @@ export function ApiValidateResetPasswordToken() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 419 },
-          message: { type: 'string', example: 'Token is expired' },
+          message: { type: 'string', example: 'Token expirado' },
         },
       },
     }),

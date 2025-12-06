@@ -37,7 +37,7 @@ export class RegisterService {
           password,
         })
         .finally();
-      return new CreatedHandle('User was created successfully');
+      return new CreatedHandle('Usuario creado exitosamente');
     } catch (err) {
       this.handleDBException(err);
     }
@@ -46,7 +46,7 @@ export class RegisterService {
   private handleDBException(error) {
     if (error.code === 'ER_DUP_ENTRY') {
       const [, email] = error.sqlMessage.split("'");
-      throw new BadRequestException(`Email ${email} is already exist`);
+      throw new BadRequestException(`El email ${email} ya existe`);
     }
 
     throw new InternalServerErrorException(error.sqlMessage);

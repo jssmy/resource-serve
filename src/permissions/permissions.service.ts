@@ -24,7 +24,7 @@ export class PermissionsService {
     try {
       const permission = new PermissionFactory(createPermissionDto).create();
       await this.permissionRepository.save(permission);
-      return new SuccessHandle('Permission created');
+      return new SuccessHandle('Permiso creado exitosamente');
     } catch (err) {
       this.handleDBException(err);
     }
@@ -63,7 +63,7 @@ export class PermissionsService {
     const permission = await this.permissionRepository.findOneBy({ id });
 
     if (!permission) {
-      throw new NotFoundException('Permission not found');
+      throw new NotFoundException('Permiso no encontrado');
     }
 
     return permission;
@@ -77,27 +77,27 @@ export class PermissionsService {
     });
 
     if (uptaded.affected <= 0) {
-      throw new NotFoundException('Role not found');
+      throw new NotFoundException('Rol no encontrado');
     }
 
-    return new SuccessHandle('Permission updated');
+    return new SuccessHandle('Permiso actualizado exitosamente');
   }
 
   async remove(id: string) {
     const permission = await this.findOne(id);
 
     if (permission.protected) {
-      throw new ForbiddenException('This permission can not remove');
+      throw new ForbiddenException('Este permiso no puede ser eliminado');
     }
 
     this.permissionRepository.remove(permission);
-    return new SuccessHandle('Permission removed');
+    return new SuccessHandle('Permiso eliminado exitosamente');
   }
 
   private handleDBException(error) {
     if (error.code === 'ER_DUP_ENTRY') {
       const [, role] = error.sqlMessage.split("'");
-      throw new BadRequestException(`Permission "${role}" is already exist`);
+      throw new BadRequestException(`El permiso "${role}" ya existe`);
     }
 
     throw new InternalServerErrorException(error.sqlMessage);

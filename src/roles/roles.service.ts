@@ -30,7 +30,7 @@ export class RolesService {
       });
 
       if (permissions.length !== createRoleDto.permissions.length) {
-        throw new BadRequestException('Some permissions does not exist');
+        throw new BadRequestException('Algunos permisos no existen');
       }
 
       await this.roleRepository.save({
@@ -38,7 +38,7 @@ export class RolesService {
         permissions,
       });
 
-      return new CreatedHandle('Role has been created');
+      return new CreatedHandle('Rol creado exitosamente');
     } catch (err) {
       this.handleDBException(err);
     }
@@ -69,7 +69,7 @@ export class RolesService {
     });
 
     if (!role) {
-      throw new NotFoundException('Role not found');
+      throw new NotFoundException('Rol no encontrado');
     }
     return role;
   }
@@ -83,7 +83,7 @@ export class RolesService {
     });
 
     if (permissions.length !== updateRoleDto.permissions.length) {
-      throw new BadRequestException('Some permissions does not exist');
+      throw new BadRequestException('Algunos permisos no existen');
     }
 
     const permissionsProtected = permissions.filter(
@@ -97,7 +97,7 @@ export class RolesService {
       currentPermissionProtected.length < permissionsProtected.length &&
       role.protected
     ) {
-      throw new ForbiddenException('Some permissiones cant not removed');
+      throw new ForbiddenException('Algunos permisos no pueden ser eliminados');
     }
 
     if (!role.protected) {
@@ -108,14 +108,14 @@ export class RolesService {
 
     this.roleRepository.save(role);
 
-    return new SuccessHandle('Role updated');
+    return new SuccessHandle('Rol actualizado exitosamente');
   }
 
   async remove(id: number) {
     const role = await this.findOne(id);
 
     if (role.protected) {
-      throw new ForbiddenException('This role can not remove');
+      throw new ForbiddenException('Este rol no puede ser eliminado');
     }
 
     role.permissions = [];
@@ -123,13 +123,13 @@ export class RolesService {
 
     this.roleRepository.delete(role.id);
 
-    return new SuccessHandle('Role removed');
+    return new SuccessHandle('Rol eliminado exitosamente');
   }
 
   private handleDBException(error) {
     if (error.code === 'ER_DUP_ENTRY') {
       const [, role] = error.sqlMessage.split("'");
-      throw new BadRequestException(`Role ${role} is already exist`);
+      throw new BadRequestException(`El rol ${role} ya existe`);
     }
 
     throw new InternalServerErrorException(error.sqlMessage);

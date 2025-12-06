@@ -2,6 +2,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/user/entities/user.entity';
+import { AppSettings } from 'src/commons/utils/app-settings.util';
 
 @Injectable()
 export class MailService {
@@ -24,6 +25,7 @@ export class MailService {
         context: {
           URL_CONFIRMATION_ACCOUNT,
           PASSWORD_GENERATED,
+          APP_NAME: AppSettings.APP_NAME,
         },
       });
     } catch (e) {}

@@ -13,7 +13,7 @@ export class ControlAccessController {
   @CheckPolicies(TypePermissions.MENU, TypePermissions.OPTION)
   @HttpCode(HttpStatus.OK)
   hasValidAuth() {
-    return new SuccessHandle('Success auth access');
+    return new SuccessHandle('Acceso autorizado exitosamente');
   }
 
   @Get('permissions')

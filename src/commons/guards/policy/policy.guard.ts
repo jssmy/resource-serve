@@ -40,7 +40,7 @@ export class PolicyGuard implements CanActivate {
 
     if (!user) {
       throw new InternalServerErrorException(
-        'User is not setting, please check config API',
+        'Usuario no configurado, por favor verifique la configuración de la API',
       );
     }
 

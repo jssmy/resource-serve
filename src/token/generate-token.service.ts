@@ -125,7 +125,7 @@ export class GenerateTokenService {
     return Promise.all([
       this.tokenRepository.update(accessToken.id, { revoked: true }),
       this.refreshRepository.update(refreshToken.id, { revoked: true }),
-    ]).then(() => new SuccessHandle('Token was revoked'));
+    ]).then(() => new SuccessHandle('Token revocado exitosamente'));
   }
 
   logout(accessToken: string) {

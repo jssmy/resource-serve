@@ -32,15 +32,15 @@ export class AccessTokenStrategy extends PassportStrategy(
     const token = await this.accessTokenRepository.findOneBy({ id });
 
     if (!token) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     if (token.userId != uid) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     if (token.revoked) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     const user = await this.userRepository
@@ -52,11 +52,11 @@ export class AccessTokenStrategy extends PassportStrategy(
       .getOne();
 
     if (!user) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     if (!user.state) {
-      throw new UnauthorizedException('User is inactive');
+      throw new UnauthorizedException('Usuario inactivo');
     }
 
     return user;

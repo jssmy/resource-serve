@@ -37,33 +37,33 @@ export class RefreshTokenStrategy extends PassportStrategy(
     const refreshToken = await this.refreshRepository.findOneBy({ id });
 
     if (!refreshToken) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     if (refreshToken.revoked) {
       // this token was refreshed
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     const accessToken = await this.accessRepository.findOneBy({ id: aid });
 
     if (!accessToken) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     if (refreshToken.accessTokenId != aid) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
 
     if (accessToken.revoked) {
-      throw new UnauthorizedException('Token is invalid');
+      throw new UnauthorizedException('Token inválido');
     }
     const user = await this.userRepository.findOneBy({
       id: accessToken.userId,
     });
 
     if (!user.state) {
-      throw new UnauthorizedException('User is inactive');
+      throw new UnauthorizedException('Usuario inactivo');
     }
 
     return user;

@@ -60,7 +60,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado');
     }
 
     return user;
@@ -69,13 +69,13 @@ export class UserService {
   async delete(id: string) {
     await this.userRepository.delete(id);
 
-    return new SuccessHandle('User was removed');
+    return new SuccessHandle('Usuario eliminado exitosamente');
   }
 
   private handleDBException(error) {
     if (error.code === 'ER_DUP_ENTRY') {
       const [, email] = error.sqlMessage.split("'");
-      throw new BadRequestException(`Email ${email} is already exist`);
+      throw new BadRequestException(`El email ${email} ya existe`);
     }
 
     throw new InternalServerErrorException(error.sqlMessage);

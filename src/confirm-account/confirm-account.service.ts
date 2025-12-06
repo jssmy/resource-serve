@@ -47,7 +47,7 @@ export class ConfirmAccountService {
     });
 
     if (!accountConfirmation) {
-      throw new BadRequestException('Token is invalid');
+      throw new BadRequestException('Token inválido');
     }
 
     const isExpiredToken =
@@ -57,7 +57,7 @@ export class ConfirmAccountService {
       ) <= 0;
 
     if (isExpiredToken) {
-      throw new HttpException('Token expired', 419);
+      throw new HttpException('Token expirado', 419);
     }
 
     try {
@@ -70,7 +70,7 @@ export class ConfirmAccountService {
           accountValidatedDate: DateHelper.date().toDate(),
         }),
       ]);
-      return new SuccessHandle('Account is validated');
+      return new SuccessHandle('Cuenta validada exitosamente');
     } catch (e) {
       throw new InternalServerErrorException('Error inesperdo');
     }
@@ -82,17 +82,19 @@ export class ConfirmAccountService {
     const user = await this.userRepository.findOneBy({ email });
 
     if (!user) {
-      throw new NotFoundException('Email not found');
+      throw new NotFoundException('Email no encontrado');
     }
 
     if (user.accountValidated) {
-      throw new BadRequestException('Email account is already validated');
+      throw new BadRequestException('La cuenta de email ya está validada');
     }
 
     return this.sendConfirmation(user)
       .then(
         () =>
-          new SuccessHandle(`Mail was send to ${email}, please yor inbox mail`),
+          new SuccessHandle(
+            `Correo enviado a ${email}, por favor revise su bandeja de entrada`,
+          ),
       )
       .catch((err) => {
         throw new HttpException(err, err.status || 500);

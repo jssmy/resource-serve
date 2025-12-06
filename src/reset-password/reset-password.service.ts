@@ -46,7 +46,7 @@ export class ResetPasswordService {
     this.logger.log(`User found: ${JSON.stringify(user)}`);
 
     if (!user) {
-      throw new NotFoundException('Email account is not found');
+      throw new NotFoundException('Cuenta de email no encontrada');
     }
 
     const resetPassword = new ResetPasswordFactory(
@@ -58,13 +58,15 @@ export class ResetPasswordService {
     this.mailService.sendMailResetPassword(user, resetPassword.token);
 
     return new SuccessHandle(
-      `Mail reset password was send to ${email}, please check your inbox`,
+      `Correo de restablecimiento de contraseña enviado a ${email}, por favor revise su bandeja de entrada`,
     );
   }
 
   async resetPassword(token: string, resetPasswordDto: ResetPasswordDto) {
     if (resetPasswordDto.password !== resetPasswordDto.confirmPassword) {
-      throw new BadRequestException('Confirm password is not correct');
+      throw new BadRequestException(
+        'La confirmación de contraseña no es correcta',
+      );
     }
 
     const resetPassword = await this.resetPasswordRepository.findOne({
@@ -72,7 +74,7 @@ export class ResetPasswordService {
     });
 
     if (!resetPassword) {
-      throw new NotFoundException('Token not found');
+      throw new NotFoundException('Token no encontrado');
     }
 
     const isExpiredToken =
@@ -82,7 +84,7 @@ export class ResetPasswordService {
       ) <= 0;
 
     if (isExpiredToken) {
-      throw new HttpException('Token is expired', 419);
+      throw new HttpException('Token expirado', 419);
     }
 
     const user = await this.userRepository.findOne({
@@ -92,7 +94,7 @@ export class ResetPasswordService {
 
     if (ByCript.compareSync(resetPasswordDto.password, user.password)) {
       throw new BadRequestException(
-        'New password must be different to current password',
+        'La nueva contraseña debe ser diferente a la contraseña actual',
       );
     }
 
@@ -103,7 +105,7 @@ export class ResetPasswordService {
 
     this.resetPasswordRepository.update(resetPassword.token, { revoked: true });
     this.mailService.sendMailResetPasswordConfirmation(user);
-    return new SuccessHandle('Password was reset');
+    return new SuccessHandle('Contraseña restablecida exitosamente');
   }
 
   async validateToken(token: string) {
@@ -114,7 +116,7 @@ export class ResetPasswordService {
     this.logger.log(`Reset password found: ${JSON.stringify(resetPassword)}`);
 
     if (!resetPassword) {
-      throw new NotFoundException('Token not found');
+      throw new NotFoundException('Token no encontrado');
     }
 
     const isExpiredToken =
@@ -124,9 +126,9 @@ export class ResetPasswordService {
       ) <= 0;
 
     if (isExpiredToken) {
-      throw new HttpException('Token is expired', 419);
+      throw new HttpException('Token expirado', 419);
     }
 
-    return new SuccessHandle('Token is valid');
+    return new SuccessHandle('Token válido');
   }
 }
