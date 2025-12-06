@@ -45,11 +45,11 @@ module.exports = {
     ],
     // Prohibir código comentado
     'no-commented-code/no-commented-code': 'error',
-    // Detectar comentarios que parecen código ejecutable
+    // Detectar comentarios problemáticos (permitir TODO)
     'no-warning-comments': [
       'warn',
       {
-        terms: ['todo', 'fixme', 'xxx', 'hack'],
+        terms: ['fixme', 'xxx', 'hack'],
         location: 'anywhere',
       },
     ],
