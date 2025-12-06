@@ -42,7 +42,6 @@ export class ResetPasswordService {
         email: true,
       },
     });
-    
 
     this.logger.log(`User found: ${JSON.stringify(user)}`);
 

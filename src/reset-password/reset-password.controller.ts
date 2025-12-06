@@ -1,9 +1,12 @@
-import { Controller, Post, Body, Patch, Param, ParseUUIDPipe, Get } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Get } from '@nestjs/common';
 import { ResetPasswordService } from './reset-password.service';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.tdo';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { ApiSendResetPasswordMail, ApiResetPassword, ApiValidateResetPasswordToken } from 'src/config/doc/reset-password/reset-password-api.decorator';
-import { Auth } from 'src/commons/guards/auth';
+import {
+  ApiSendResetPasswordMail,
+  ApiResetPassword,
+  ApiValidateResetPasswordToken,
+} from 'src/config/doc/reset-password/reset-password-api.decorator';
 
 @Controller('password')
 export class ResetPasswordController {

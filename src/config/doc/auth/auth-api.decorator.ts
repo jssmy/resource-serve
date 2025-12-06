@@ -1,7 +1,20 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
-import { ApiDoc, ApiErrorResponses, ApiAuthResponses } from '../common/base-api.decorator';
-import { ApiSuccessResponse, ApiCreatedResponse } from '../common/success-responses.decorator';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+  ApiHeader,
+} from '@nestjs/swagger';
+import {
+  ApiErrorResponses,
+  ApiAuthResponses,
+} from '../common/base-api.decorator';
+import {
+  ApiSuccessResponse,
+  ApiCreatedResponse,
+} from '../common/success-responses.decorator';
 
 /**
  * Decorador para endpoints de autenticación
@@ -21,11 +34,15 @@ export function ApiLogin() {
       schema: {
         type: 'object',
         properties: {
-          email: { type: 'string', example: 'user@example.com', format: 'email' },
-          password: { type: 'string', example: 'password123', minLength: 6 }
+          email: {
+            type: 'string',
+            example: 'user@example.com',
+            format: 'email',
+          },
+          password: { type: 'string', example: 'password123', minLength: 6 },
         },
-        required: ['email', 'password']
-      }
+        required: ['email', 'password'],
+      },
     }),
     ApiResponse({
       status: 200,
@@ -33,17 +50,20 @@ export function ApiLogin() {
       schema: {
         type: 'object',
         properties: {
-          access_token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+          access_token: {
+            type: 'string',
+            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+          },
           user: {
             type: 'object',
             properties: {
               id: { type: 'number', example: 1 },
               email: { type: 'string', example: 'user@example.com' },
-              name: { type: 'string', example: 'John Doe' }
-            }
-          }
-        }
-      }
+              name: { type: 'string', example: 'John Doe' },
+            },
+          },
+        },
+      },
     }),
     ApiResponse({
       status: 401,
@@ -52,11 +72,11 @@ export function ApiLogin() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 401 },
-          message: { type: 'string', example: 'Credenciales inválidas' }
-        }
-      }
+          message: { type: 'string', example: 'Credenciales inválidas' },
+        },
+      },
     }),
-    ApiErrorResponses()
+    ApiErrorResponses(),
   );
 }
 
@@ -71,14 +91,28 @@ export function ApiRegister() {
       schema: {
         type: 'object',
         properties: {
-          name: { type: 'string', example: 'Juan', minLength: 2, maxLength: 50 },
-          surnames: { type: 'string', example: 'Pérez García', minLength: 8, maxLength: 155 },
-          email: { type: 'string', example: 'juan.perez@example.com', format: 'email' },
+          name: {
+            type: 'string',
+            example: 'Juan',
+            minLength: 2,
+            maxLength: 50,
+          },
+          surnames: {
+            type: 'string',
+            example: 'Pérez García',
+            minLength: 8,
+            maxLength: 155,
+          },
+          email: {
+            type: 'string',
+            example: 'juan.perez@example.com',
+            format: 'email',
+          },
           avatars: { type: 'array', items: { type: 'string' } },
-          roleId: { type: 'number', example: 1 }
+          roleId: { type: 'number', example: 1 },
         },
-        required: ['name', 'surnames', 'email', 'roleId']
-      }
+        required: ['name', 'surnames', 'email', 'roleId'],
+      },
     }),
     ApiCreatedResponse('Usuario registrado exitosamente', {
       type: 'object',
@@ -86,8 +120,8 @@ export function ApiRegister() {
         id: { type: 'number', example: 1 },
         email: { type: 'string', example: 'user@example.com' },
         name: { type: 'string', example: 'John Doe' },
-        message: { type: 'string', example: 'Usuario registrado exitosamente' }
-      }
+        message: { type: 'string', example: 'Usuario registrado exitosamente' },
+      },
     }),
     ApiResponse({
       status: 400,
@@ -96,11 +130,15 @@ export function ApiRegister() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 400 },
-          message: { type: 'array', items: { type: 'string' }, example: ['El email ya está en uso'] }
-        }
-      }
+          message: {
+            type: 'array',
+            items: { type: 'string' },
+            example: ['El email ya está en uso'],
+          },
+        },
+      },
     }),
-    ApiErrorResponses()
+    ApiErrorResponses(),
   );
 }
 
@@ -116,16 +154,16 @@ export function ApiLogout() {
       name: 'authorization',
       description: 'Token JWT de acceso',
       required: true,
-      example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+      example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
     }),
     ApiSuccessResponse('Sesión cerrada exitosamente', {
       type: 'object',
       properties: {
-        message: { type: 'string', example: 'Sesión cerrada exitosamente' }
-      }
+        message: { type: 'string', example: 'Sesión cerrada exitosamente' },
+      },
     }),
     ApiAuthResponses(),
-    ApiErrorResponses()
+    ApiErrorResponses(),
   );
 }
 
@@ -142,9 +180,12 @@ export function ApiConfirmAccount() {
       schema: {
         type: 'object',
         properties: {
-          message: { type: 'string', example: 'Cuenta confirmada exitosamente' }
-        }
-      }
+          message: {
+            type: 'string',
+            example: 'Cuenta confirmada exitosamente',
+          },
+        },
+      },
     }),
     ApiResponse({
       status: 400,
@@ -153,11 +194,11 @@ export function ApiConfirmAccount() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 400 },
-          message: { type: 'string', example: 'Token inválido o expirado' }
-        }
-      }
+          message: { type: 'string', example: 'Token inválido o expirado' },
+        },
+      },
     }),
-    ApiErrorResponses()
+    ApiErrorResponses(),
   );
 }
 
@@ -172,10 +213,14 @@ export function ApiResetPassword() {
       schema: {
         type: 'object',
         properties: {
-          email: { type: 'string', example: 'user@example.com', format: 'email' }
+          email: {
+            type: 'string',
+            example: 'user@example.com',
+            format: 'email',
+          },
         },
-        required: ['email']
-      }
+        required: ['email'],
+      },
     }),
     ApiSuccessResponse('Email de reset enviado exitosamente'),
     ApiResponse({
@@ -185,10 +230,10 @@ export function ApiResetPassword() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 404 },
-          message: { type: 'string', example: 'Usuario no encontrado' }
-        }
-      }
+          message: { type: 'string', example: 'Usuario no encontrado' },
+        },
+      },
     }),
-    ApiErrorResponses()
+    ApiErrorResponses(),
   );
 }

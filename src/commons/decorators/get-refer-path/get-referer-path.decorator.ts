@@ -7,7 +7,7 @@ import { IncomingHttpHeaders } from 'http';
 import { trim } from 'src/commons/utils/string.util';
 
 export const GetRefererPath = createParamDecorator(
-  (__data, ctx: ExecutionContext) => {
+  (_data, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const headers = request.headers as IncomingHttpHeaders;
 

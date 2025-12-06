@@ -6,7 +6,7 @@ import {
 import { IncomingHttpHeaders } from 'http';
 
 export const GetRequestOrigin = createParamDecorator(
-  (__data, ctx: ExecutionContext) => {
+  (_data, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const headers = request.headers as IncomingHttpHeaders;
 

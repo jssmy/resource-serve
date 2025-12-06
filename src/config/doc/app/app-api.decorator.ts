@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ApiErrorResponses } from '../common/base-api.decorator';
 import { ApiSuccessResponse } from '../common/success-responses.decorator';
 
@@ -19,9 +19,9 @@ export function ApiWelcome() {
     ApiOperation({ summary: 'Obtener mensaje de bienvenida' }),
     ApiSuccessResponse('Mensaje de bienvenida obtenido exitosamente', {
       type: 'string',
-      example: 'Hello World!'
+      example: 'Hello World!',
     }),
-    ApiErrorResponses()
+    ApiErrorResponses(),
   );
 }
 
@@ -38,9 +38,9 @@ export function ApiHealthCheck() {
         status: { type: 'string', example: 'ok' },
         timestamp: { type: 'string', format: 'date-time' },
         uptime: { type: 'number', example: 12345 },
-        version: { type: 'string', example: '1.0.0' }
-      }
+        version: { type: 'string', example: '1.0.0' },
+      },
     }),
-    ApiErrorResponses()
+    ApiErrorResponses(),
   );
 }

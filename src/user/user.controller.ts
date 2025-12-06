@@ -30,9 +30,7 @@ export class UserController {
 
   @Get('/:id')
   @ApiGetUser()
-  findOne(
-    @Param('id', new ParseUUIDPipe()) id: string
-  ) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.findOne(id);
   }
 

@@ -1,4 +1,3 @@
-import { applyDecorators } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
 /**
@@ -12,9 +11,9 @@ export function ApiSuccessResponse(description: string, schema?: any) {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
-        message: { type: 'string', example: 'Operación exitosa' }
-      }
-    }
+        message: { type: 'string', example: 'Operación exitosa' },
+      },
+    },
   });
 }
 
@@ -29,9 +28,9 @@ export function ApiCreatedResponse(description: string, schema?: any) {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
-        message: { type: 'string', example: 'Recurso creado exitosamente' }
-      }
-    }
+        message: { type: 'string', example: 'Recurso creado exitosamente' },
+      },
+    },
   });
 }
 
@@ -46,16 +45,19 @@ export function ApiDeletedResponse(description: string) {
       type: 'object',
       properties: {
         success: { type: 'boolean', example: true },
-        message: { type: 'string', example: 'Recurso eliminado exitosamente' }
-      }
-    }
+        message: { type: 'string', example: 'Recurso eliminado exitosamente' },
+      },
+    },
   });
 }
 
 /**
  * Decorador para respuesta de lista paginada
  */
-export function ApiPaginatedResponse(itemSchema: any, description: string = 'Lista obtenida exitosamente') {
+export function ApiPaginatedResponse(
+  itemSchema: any,
+  description: string = 'Lista obtenida exitosamente',
+) {
   return ApiResponse({
     status: 200,
     description,
@@ -64,13 +66,13 @@ export function ApiPaginatedResponse(itemSchema: any, description: string = 'Lis
       properties: {
         data: {
           type: 'array',
-          items: itemSchema
+          items: itemSchema,
         },
         total: { type: 'number', example: 25 },
         page: { type: 'number', example: 1 },
         limit: { type: 'number', example: 10 },
-        totalPages: { type: 'number', example: 3 }
-      }
-    }
+        totalPages: { type: 'number', example: 3 },
+      },
+    },
   });
 }

@@ -1,2 +1,2 @@
-export const PasswordRegx =
+export const passwordRegx =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;

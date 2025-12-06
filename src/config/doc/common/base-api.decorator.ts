@@ -24,19 +24,23 @@ export function ApiDoc(options: ApiDocOptions) {
   }
 
   // Agregar operación
-  decorators.push(ApiOperation({ 
-    summary: options.summary,
-    description: options.description 
-  }));
+  decorators.push(
+    ApiOperation({
+      summary: options.summary,
+      description: options.description,
+    }),
+  );
 
   // Agregar respuestas
   if (options.responses) {
-    options.responses.forEach(response => {
-      decorators.push(ApiResponse({
-        status: response.status,
-        description: response.description,
-        schema: response.schema
-      }));
+    options.responses.forEach((response) => {
+      decorators.push(
+        ApiResponse({
+          status: response.status,
+          description: response.description,
+          schema: response.schema,
+        }),
+      );
     });
   }
 
@@ -55,10 +59,14 @@ export function ApiErrorResponses() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 400 },
-          message: { type: 'array', items: { type: 'string' }, example: ['Error de validación'] },
-          error: { type: 'string', example: 'Bad Request' }
-        }
-      }
+          message: {
+            type: 'array',
+            items: { type: 'string' },
+            example: ['Error de validación'],
+          },
+          error: { type: 'string', example: 'Bad Request' },
+        },
+      },
     }),
     ApiResponse({
       status: 500,
@@ -68,10 +76,10 @@ export function ApiErrorResponses() {
         properties: {
           statusCode: { type: 'number', example: 500 },
           message: { type: 'string', example: 'Error interno del servidor' },
-          error: { type: 'string', example: 'Internal Server Error' }
-        }
-      }
-    })
+          error: { type: 'string', example: 'Internal Server Error' },
+        },
+      },
+    }),
   );
 }
 
@@ -87,9 +95,9 @@ export function ApiAuthResponses() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 401 },
-          message: { type: 'string', example: 'Unauthorized' }
-        }
-      }
+          message: { type: 'string', example: 'Unauthorized' },
+        },
+      },
     }),
     ApiResponse({
       status: 403,
@@ -98,9 +106,9 @@ export function ApiAuthResponses() {
         type: 'object',
         properties: {
           statusCode: { type: 'number', example: 403 },
-          message: { type: 'string', example: 'Forbidden' }
-        }
-      }
-    })
+          message: { type: 'string', example: 'Forbidden' },
+        },
+      },
+    }),
   );
 }

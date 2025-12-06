@@ -9,7 +9,7 @@ export function ApiResetPasswordEmailProperty() {
     example: 'user@example.com',
     minLength: 5,
     maxLength: 40,
-    format: 'email'
+    format: 'email',
   });
 }
 
@@ -18,11 +18,13 @@ export function ApiResetPasswordEmailProperty() {
  */
 export function ApiResetPasswordPasswordProperty() {
   return ApiProperty({
-    description: 'Nueva contraseña que debe contener al menos una letra minúscula, una mayúscula, un dígito y un carácter especial',
+    description:
+      'Nueva contraseña que debe contener al menos una letra minúscula, una mayúscula, un dígito y un carácter especial',
     example: 'NewPassword123!',
     minLength: 8,
     maxLength: 15,
-    pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$'
+    pattern:
+      '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$',
   });
 }
 
@@ -33,6 +35,6 @@ export function ApiResetPasswordConfirmPasswordProperty() {
   return ApiProperty({
     description: 'Confirmación de la nueva contraseña',
     example: 'NewPassword123!',
-    minLength: 8
+    minLength: 8,
   });
 }

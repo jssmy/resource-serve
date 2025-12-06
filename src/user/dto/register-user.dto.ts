@@ -13,7 +13,7 @@ export class RegisterUserDto {
     description: 'Nombre del usuario',
     example: 'Juan',
     minLength: 2,
-    maxLength: 50
+    maxLength: 50,
   })
   @IsString()
   @MinLength(2)
@@ -24,7 +24,7 @@ export class RegisterUserDto {
     description: 'Apellidos del usuario',
     example: 'Pérez García',
     minLength: 8,
-    maxLength: 155
+    maxLength: 155,
   })
   @IsString()
   @MinLength(8)
@@ -36,7 +36,7 @@ export class RegisterUserDto {
     example: 'juan.perez@example.com',
     format: 'email',
     minLength: 5,
-    maxLength: 40
+    maxLength: 40,
   })
   @MaxLength(40)
   @MinLength(5)
@@ -45,9 +45,12 @@ export class RegisterUserDto {
 
   @ApiProperty({
     description: 'URLs de avatares del usuario',
-    example: ['https://example.com/avatar1.jpg', 'https://example.com/avatar2.jpg'],
+    example: [
+      'https://example.com/avatar1.jpg',
+      'https://example.com/avatar2.jpg',
+    ],
     required: false,
-    type: [String]
+    type: [String],
   })
   @IsString({ each: true })
   @IsOptional()
@@ -56,7 +59,7 @@ export class RegisterUserDto {
   @ApiProperty({
     description: 'ID del rol asignado al usuario',
     example: 1,
-    type: 'integer'
+    type: 'integer',
   })
   @IsInt()
   roleId: number;
