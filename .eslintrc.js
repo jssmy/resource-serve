@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'no-commented-code'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -36,6 +36,23 @@ module.exports = {
     ],
     // Detectar importaciones sin usar
     'no-unused-vars': 'off', // Desactivamos la regla base para usar la de TypeScript
+    // Prohibir console.log (permitir console.error y console.warn)
+    'no-console': [
+      'error',
+      {
+        allow: ['warn', 'error'],
+      },
+    ],
+    // Prohibir código comentado
+    'no-commented-code/no-commented-code': 'error',
+    // Detectar comentarios que parecen código ejecutable
+    'no-warning-comments': [
+      'warn',
+      {
+        terms: ['todo', 'fixme', 'xxx', 'hack'],
+        location: 'anywhere',
+      },
+    ],
     // Convención de nombres: variables en camelCase
     '@typescript-eslint/naming-convention': [
       'error',
