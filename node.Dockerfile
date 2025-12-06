@@ -1,5 +1,5 @@
 #imagen de base 
-FROM node:22.0 as builder
+FROM node:25.2.1 as builder
 
 # establece la direccion de trabajo dentro del contenedor
 
@@ -22,7 +22,7 @@ RUN npm run build
 #RUN npm run seed
 
 # Configura la segunda fase (etapa de producción) para reducir el tamaño de la imagen
-FROM node:22.0 as production
+FROM node:25.2.1 as production
 
 #establece entorno de trabajo
 WORKDIR /app

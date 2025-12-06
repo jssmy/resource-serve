@@ -6,11 +6,15 @@ export const trim = (str: string, charToTrim) => {
   return str.replace(regex, '');
 };
 
+// TODO: Migrar a nuevo sistema de paths - Esta función será reemplazada
+// cuando se implemente el nuevo sistema de routing que soportará parámetros opcionales nativamente
 function convertRouteToRegex(route: string): RegExp {
   // Escapar caracteres especiales en la ruta
   let regexStr = route.replace(/([.*+?^${}()|[\]\\])/g, '\\$1');
 
   // Reemplazar parámetros dinámicos obligatorios y opcionales
+  // Nota: El soporte de parámetros opcionales (:id?) se mantiene aquí para compatibilidad
+  // con el sistema de permisos actual, pero será reemplazado en la migración
   regexStr = route.replace(
     /\/:([a-zA-Z_][a-zA-Z0-9_-]*)(\?)?/g,
     (_, paramName, optional) => {

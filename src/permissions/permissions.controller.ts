@@ -26,11 +26,24 @@ export class PermissionsController {
     return this.permissionsService.create(createPermissionDto);
   }
 
-  @Get('parent/:id?')
+  // TODO: Migrar a nuevo sistema de paths - Unificar estas dos rutas en una sola
+  // con parámetros opcionales cuando se implemente el nuevo sistema de routing
+  // Actualmente separadas porque NestJS 11 no soporta parámetros opcionales en rutas (:id?)
+  @Get('parent')
+  @CheckPolicies(TypePermissions.API)
+  findAllByParentIdWithoutId(
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number,
+  ) {
+    limit = limit || 10;
+    page = page || 1;
+    return this.permissionsService.findAllByParentId(undefined, limit, page);
+  }
+
+  @Get('parent/:id')
   @CheckPolicies(TypePermissions.API)
   findAllByParentId(
-    @Param('id', new ParseUUIDPipe({ version: '4', optional: true }))
-    id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number,
     @Query('page', new ParseIntPipe({ optional: true })) page: number,
   ) {
