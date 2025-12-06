@@ -23,10 +23,7 @@ export class OriginGuard implements CanActivate {
     const origin = request.headers.origin || request.headers.referer;
 
     // Si no hay origin (Postman, curl, etc.), permitir en desarrollo
-    // En producción, descomentar para rechazar requests sin origin
-    // if (!origin) {
-    //   throw new ForbiddenException('Origin header is required');
-    // }
+    // En producción, considerar validar que el origin sea requerido
 
     if (origin) {
       const originUrl = new URL(origin);

@@ -16,8 +16,7 @@ async function bootstrap() {
     cors: {
       origin: (origin, callback) => {
         // Permitir requests sin origin (Postman, curl, etc.) solo en desarrollo
-        // En producción, descomentar la siguiente línea para rechazar requests sin origin
-        // if (!origin) return callback(new Error('Not allowed by CORS'), false);
+        // En producción, considerar rechazar requests sin origin
 
         if (!origin || allowedOrigins.includes(origin)) {
           callback(null, true);
@@ -69,7 +68,5 @@ async function bootstrap() {
   });
 
   await app.listen(3000);
-  console.log(`🚀 Application is running on: http://localhost:3000`);
-  console.log(`📚 Swagger documentation: http://localhost:3000/api/docs`);
 }
 bootstrap();

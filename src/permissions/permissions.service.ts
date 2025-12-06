@@ -70,12 +70,6 @@ export class PermissionsService {
   }
 
   async update(id: string, updatePermissionDto: UpdatePermissionDto) {
-    // const permission = await this.findOne(id);
-
-    // if (permission.protected) {
-    //   throw new ForbiddenException('This permission can not update');
-    // }
-
     const uptaded = await this.permissionRepository.update(id, {
       method: null,
       route: null,
