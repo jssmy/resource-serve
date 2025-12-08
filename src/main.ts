@@ -4,29 +4,19 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  // Dominios permitidos para usar la API
-  const allowedOrigins = [
-    'https://hardacodeando.com',
-    'http://hardacodeando.com',
-    'https://bugzilo.com',
-    'http://bugzilo.com',
-  ];
-
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: (origin, callback) => {
-        // Permitir requests sin origin (Postman, curl, etc.) solo en desarrollo
-        // En producción, considerar rechazar requests sin origin
-
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'), false);
-        }
-      },
+      origin: [
+        'https://hardcodeando.com',
+        'https://www.hardcodeando.com',
+        'http://hardcodeando.com',
+        'http://www.hardcodeando.com',
+        'https://bugzilo.com',
+        'https://www.bugzilo.com',
+        'http://bugzilo.com',
+        'http://www.bugzilo.com',
+      ],
       credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     },
   });
 
@@ -68,5 +58,7 @@ async function bootstrap() {
   });
 
   await app.listen(3000);
+  console.log(`🚀 Application is running on: http://localhost:3000`);
+  console.log(`📚 Swagger documentation: http://localhost:3000/api/docs`);
 }
 bootstrap();

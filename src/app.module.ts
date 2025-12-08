@@ -15,10 +15,10 @@ import { TokenModule } from './token/token.module';
 import { ConfirmAccountModule } from './confirm-account/confirm-account.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
-import { databaseConfiguration } from '@config/database/db-auth.config';
+import { databaseConfiguration } from './config/database/db-auth.config';
 import { ControlAccessModule } from './control-access/control-access.module';
-import { CustomThrottlerGuard } from '@commons/guards/throttler.guard';
-import { OriginGuard } from '@commons/guards/origin.guard';
+import { CustomThrottlerGuard } from './commons/guards/throttler.guard';
+import { OriginGuard } from './commons/guards/origin.guard';
 
 @Module({
   imports: [
@@ -27,7 +27,10 @@ import { OriginGuard } from '@commons/guards/origin.guard';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => databaseConfiguration(config),
+      useFactory: (config: ConfigService) => {
+        console.log(databaseConfiguration(config));
+        return databaseConfiguration(config);
+      },
     }),
     // Rate Limiting - Actualmente usando memoria
     // TODO: Migrar a Redis para producción con múltiples instancias
