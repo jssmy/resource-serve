@@ -38,7 +38,7 @@ export class ConfirmAccountService {
       this.mainService
         .sendMailAccountConfirmation(user, accountValidation.token)
         .finally();
-    } catch (e) {}
+    } catch (_e) {}
   }
 
   async confrim(token: string) {
@@ -71,7 +71,7 @@ export class ConfirmAccountService {
         }),
       ]);
       return new SuccessHandle('Cuenta validada exitosamente');
-    } catch (e) {
+    } catch (_e) {
       throw new InternalServerErrorException('Error inesperdo');
     }
   }

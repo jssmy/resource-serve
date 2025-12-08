@@ -28,7 +28,7 @@ export class MailService {
           APP_NAME: AppSettings.APP_NAME,
         },
       });
-    } catch (e) {}
+    } catch (_e) {}
   }
 
   sendMailResetPassword(user: User, token: string) {

@@ -28,7 +28,6 @@ import { OriginGuard } from './commons/guards/origin.guard';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        console.log(databaseConfiguration(config));
         return databaseConfiguration(config);
       },
     }),
