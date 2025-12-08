@@ -17,8 +17,8 @@ WORKDIR /app
 # Copia el archivo package.json y package-lock.json
 COPY package.json package-lock.json ./
 
-# Instala las dependencias de la aplicación (con --legacy-peer-deps para compatibilidad)
-RUN npm install --legacy-peer-deps
+# Instala las dependencias desde package-lock.json
+RUN npm ci
 
 
 # Copia el código de la aplicación dentro del contenedor
@@ -38,8 +38,8 @@ WORKDIR /app
 # Copia package.json y package-lock.json desde la fase de construcción
 COPY --from=builder /app/package*.json ./
 
-# Instala solo dependencias de producción con --legacy-peer-deps
-RUN npm install --only=production --legacy-peer-deps
+# Instala solo dependencias de producción desde package-lock.json
+RUN npm ci --only=production
 
 
 # Copia la aplicación construida desde la fase anterior
