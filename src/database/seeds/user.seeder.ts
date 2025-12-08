@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
-import { Helper } from 'src/commons/classes/helper';
-import { Role } from 'src/roles/entities/role.entity';
-import { User } from 'src/user/entities/user.entity';
-import { UserFactory } from 'src/user/factories/user.factory';
+import { Helper } from '@commons/classes/helper';
+import { Role } from '@roles/entities/role.entity';
+import { User } from '@user/entities/user.entity';
+import { UserFactory } from '@user/factories/user.factory';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
 

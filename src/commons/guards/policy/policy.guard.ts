@@ -7,14 +7,14 @@ import {
 import { Reflector } from '@nestjs/core';
 import { IncomingHttpHeaders } from 'http';
 import { Observable } from 'rxjs';
-import { KEY_DECORATOR_TYPE_PERMISSION } from 'src/commons/decorators/set-permission-type/set-permission-type.decorator';
+import { KEY_DECORATOR_TYPE_PERMISSION } from '@commons/decorators/set-permission-type/set-permission-type.decorator';
 import {
   matchRoute,
   removeQueryParams,
   trim,
-} from 'src/commons/utils/string.util';
-import { TypePermissions } from 'src/permissions/types/type-permissions.type';
-import { User } from 'src/user/entities/user.entity';
+} from '@commons/utils/string.util';
+import { TypePermissions } from '@permissions/types/type-permissions.type';
+import { User } from '@user/entities/user.entity';
 
 @Injectable()
 export class PolicyGuard implements CanActivate {

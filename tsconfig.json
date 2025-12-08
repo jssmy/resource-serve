@@ -16,6 +16,22 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@commons/*": ["src/commons/*"],
+      "@config/*": ["src/config/*"],
+      "@database/*": ["src/database/*"],
+      "@user/*": ["src/user/*"],
+      "@token/*": ["src/token/*"],
+      "@login/*": ["src/login/*"],
+      "@logout/*": ["src/logout/*"],
+      "@register/*": ["src/register/*"],
+      "@roles/*": ["src/roles/*"],
+      "@permissions/*": ["src/permissions/*"],
+      "@reset-password/*": ["src/reset-password/*"],
+      "@confirm-account/*": ["src/confirm-account/*"],
+      "@control-access/*": ["src/control-access/*"],
+      "@mail/*": ["src/mail/*"]
+    }
   }
 }

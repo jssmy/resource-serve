@@ -8,12 +8,12 @@ import {
 import { Repository } from 'typeorm';
 import { ConfirmAccount } from './entities/confirm-account.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { MailService } from 'src/mail/mail.service';
+import { User } from '@user/entities/user.entity';
+import { MailService } from '@mail/mail.service';
 import { ConfirmAccountFactory } from '../register/factories/confirm-account.factory';
 import { ConfigService } from '@nestjs/config';
-import { DateHelper } from 'src/commons/classes/date-helper';
-import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { DateHelper } from '@commons/classes/date-helper';
+import { SuccessHandle } from '@commons/classes/success.handle';
 import { ConfirmAccountDto } from './dto/confirm-account.dto';
 
 @Injectable()

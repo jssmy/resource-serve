@@ -1,5 +1,5 @@
-import { Permission } from 'src/permissions/entities/permission.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Permission } from '@permissions/entities/permission.entity';
+import { User } from '@user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,

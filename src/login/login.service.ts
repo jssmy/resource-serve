@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '@user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ByCript } from 'src/commons/classes/bycript';
-import { GenerateTokenService } from 'src/token/generate-token.service';
+import { ByCript } from '@commons/classes/bycript';
+import { GenerateTokenService } from '@token/generate-token.service';
 
 @Injectable()
 export class LoginService {

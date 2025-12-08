@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Headers, Post } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { trim } from 'src/commons/utils/string.util';
-import { GenerateTokenService } from 'src/token/generate-token.service';
+import { trim } from '@commons/utils/string.util';
+import { GenerateTokenService } from '@token/generate-token.service';
 import { ApiLogout } from '../config/doc';
 
 @Controller('logout')

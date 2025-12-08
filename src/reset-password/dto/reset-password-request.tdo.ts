@@ -1,5 +1,5 @@
 import { IsEmail, MaxLength, MinLength } from 'class-validator';
-import { ApiResetPasswordEmailProperty } from 'src/config/doc/reset-password/reset-password-property.decorator';
+import { ApiResetPasswordEmailProperty } from '@config/doc/reset-password/reset-password-property.decorator';
 
 export class ResetPasswordRequestDto {
   @ApiResetPasswordEmailProperty()

@@ -9,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { TypePermissions } from '../types/type-permissions.type';
-import { HttpMethod } from 'src/commons/enums/http- methods';
+import { HttpMethod } from '@commons/enums/http- methods';
 
 export class CreatePermissionDto {
   @IsString()

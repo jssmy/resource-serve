@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { SuccessHandle } from '@commons/classes/success.handle';
 
 @Injectable()
 export class UserService {

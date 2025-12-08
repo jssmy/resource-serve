@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { LogoutController } from './logout.controller';
-import { TokenModule } from 'src/token/token.module';
+import { TokenModule } from '@token/token.module';
 
 @Module({
   controllers: [LogoutController],

@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '@user/entities/user.entity';
 import { AccessToken } from '../entities/access-token.entity';
 import { AccessTokenPayload } from '../interfaces/access-token.payload';
 

@@ -11,7 +11,7 @@ import { Repository } from 'typeorm';
 import { Permission } from './entities/permission.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PermissionFactory } from './fatories/permission.factory';
-import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { SuccessHandle } from '@commons/classes/success.handle';
 
 @Injectable()
 export class PermissionsService {

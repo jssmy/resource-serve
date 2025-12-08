@@ -8,8 +8,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CheckPolicies } from 'src/commons/guards/check-policies';
-import { TypePermissions } from 'src/permissions/types/type-permissions.type';
+import { CheckPolicies } from '@commons/guards/check-policies';
+import { TypePermissions } from '@permissions/types/type-permissions.type';
 import { ApiGetUsers, ApiGetUser, ApiDeleteUser } from '../config/doc';
 
 @Controller('user')

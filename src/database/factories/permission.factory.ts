@@ -1,6 +1,6 @@
-import { HttpMethod } from 'src/commons/enums/http- methods';
-import { PermissionFactory } from 'src/permissions/fatories/permission.factory';
-import { TypePermissions } from 'src/permissions/types/type-permissions.type';
+import { HttpMethod } from '@commons/enums/http- methods';
+import { PermissionFactory } from '@permissions/fatories/permission.factory';
+import { TypePermissions } from '@permissions/types/type-permissions.type';
 
 export const permissionesFactories = [
   /*****************************************/

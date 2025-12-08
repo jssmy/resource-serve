@@ -13,7 +13,7 @@ import {
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
-import { CheckPolicies } from 'src/commons/guards/check-policies';
+import { CheckPolicies } from '@commons/guards/check-policies';
 import { TypePermissions } from './types/type-permissions.type';
 
 @Controller('permissions')
