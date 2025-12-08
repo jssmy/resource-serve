@@ -1,22 +1,30 @@
-#imagen de base 
+# ============================================
+# Dockerfile para NestJS Application
+# ============================================
+# Node.js: v25.2.1
+# NestJS: v11.1.9
+# TypeScript: v5.6.0
+# TypeORM: v0.3.28
+# MySQL Driver: mysql2
+# ============================================
+
+# Imagen de base - Node.js 25.2.1 LTS
 FROM node:25.2.1 as builder
 
-# establece la direccion de trabajo dentro del contenedor
-
+# Establece la dirección de trabajo dentro del contenedor
 WORKDIR /app
 
-# copia el archivo packege.json y package-lock.json
-COPY package.json ./
+# Copia el archivo package.json y package-lock.json
+COPY package.json package-lock.json ./
 
-# instala las dependencias de la aplicacion
-RUN npm install
+# Instala las dependencias de la aplicación (con --legacy-peer-deps para compatibilidad)
+RUN npm install --legacy-peer-deps
 
 
-# copia el el codigo de la aplicacion dentro del contenedor
+# Copia el código de la aplicación dentro del contenedor
 COPY . ./
 
-
-# haces build de la aplicacion
+# Construye la aplicación (TypeScript → JavaScript)
 RUN npm run build
 
 #RUN npm run seed
@@ -24,14 +32,14 @@ RUN npm run build
 # Configura la segunda fase (etapa de producción) para reducir el tamaño de la imagen
 FROM node:25.2.1 as production
 
-#establece entorno de trabajo
+# Establece entorno de trabajo
 WORKDIR /app
 
-# Copia solo las dependencias de producción desde la fase de construcción
+# Copia package.json y package-lock.json desde la fase de construcción
 COPY --from=builder /app/package*.json ./
 
-#instalamos dependencias
-RUN npm install
+# Instala solo dependencias de producción con --legacy-peer-deps
+RUN npm install --only=production --legacy-peer-deps
 
 
 # Copia la aplicación construida desde la fase anterior
