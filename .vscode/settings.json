@@ -17,7 +17,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "files.watcherExclude": {
-    "**/node_modules/**": true,
     "**/dist/**": true,
     "**/build/**": true,
     "**/coverage/**": true,
@@ -25,7 +24,6 @@
     "**/.git/**": true
   },
   "files.exclude": {
-    "**/node_modules/**": true,
     "**/dist/**": true,
     "**/build/**": true,
     "**/coverage/**": true,
