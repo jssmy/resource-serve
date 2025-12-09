@@ -36,7 +36,7 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Get('public/:id')
+  @Get('writer/:id')
   findPublicUser(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.findWriter(id);
   }
