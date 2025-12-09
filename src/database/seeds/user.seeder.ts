@@ -1,25 +1,21 @@
 import { Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { config as dotenvConfig } from 'dotenv';
 import { Helper } from '@commons/classes/helper';
 import { Role } from '@roles/entities/role.entity';
 import { User } from '@user/entities/user.entity';
 import { UserFactory } from '@user/factories/user.factory';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
+import { ConfigService } from '@nestjs/config';
 
 export default class UserSeeder implements Seeder {
   public async run(dataSource: DataSource): Promise<any> {
+    const configService = new ConfigService();
+    const rootEmail = configService.get('APP_USER_ROOT') || 'root@mail.com';
     const repository = dataSource.getRepository(User);
     const repositoryRole = dataSource.getRepository(Role);
 
     const log = new Logger();
-    
-    // Cargar variables de .env explícitamente
-    dotenvConfig({ path: '.env' });
-    const config = new ConfigService();
 
-    const rootEmail = config.get('APP_USER_ROOT', 'root@mail.com');
     const userRoot = await repository.findOneBy({ email: rootEmail });
 
     if (userRoot) {

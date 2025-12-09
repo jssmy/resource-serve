@@ -48,8 +48,6 @@ services:
       # Mail Expiration
       MAIL_CONFIRM_EXPIRES_IN: ${MAIL_CONFIRM_EXPIRES_IN}
       MAIL_RESET_PASSWORD_EXPIRES_IN: ${MAIL_RESET_PASSWORD_EXPIRES_IN}
-      # Application
-      APP_USER_ROOT: ${APP_USER_ROOT}
     depends_on:
       - mysql-auth
 

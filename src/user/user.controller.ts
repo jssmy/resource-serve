@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import { CheckPolicies } from '@commons/guards/check-policies';
 import { TypePermissions } from '@permissions/types/type-permissions.type';
 import { ApiGetUsers, ApiGetUser, ApiDeleteUser } from '../config/doc';
+import { get } from 'http';
 
 @Controller('user')
 export class UserController {
@@ -30,9 +31,16 @@ export class UserController {
 
   @Get('/:id')
   @ApiGetUser()
+  @CheckPolicies(TypePermissions.API)
   findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.findOne(id);
   }
+
+  @Get('public/:id')
+  findPublicUser(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.userService.findWriter(id);
+  }
+  
 
   @Delete(':id')
   @ApiDeleteUser()

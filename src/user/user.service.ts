@@ -66,6 +66,24 @@ export class UserService {
     return user;
   }
 
+  async findWriter(id: string) {
+    const user = await this.userRepository.findOne({
+      where: { id, role: { name: 'Writer' } },
+      select: {
+        name: true,
+        surnames: true,
+        id: true,
+        avatars: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    return user;
+  }
+
   async delete(id: string) {
     await this.userRepository.delete(id);
 
