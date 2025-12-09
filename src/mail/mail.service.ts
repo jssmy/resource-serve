@@ -39,6 +39,8 @@ export class MailService {
         context: {
           username: user.name,
           url,
+          APP_NAME: AppSettings.APP_NAME,
+          APP_SUPPORT_EMAIL: AppSettings.APP_SUPPORT_EMAIL,
         },
       })
       .finally();
