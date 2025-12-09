@@ -12,9 +12,7 @@ export class MailService {
   ) {}
 
   async sendMailAccountConfirmation(user: User, token: string) {
-    const URL_CONFIRMATION_ACCOUNT = `${this.config.get(
-      'MAIL_CONFIRM_URL',
-    )}/${token}`;
+    const URL_CONFIRMATION_ACCOUNT = `${AppSettings.APP_URL}/confirm-account/${token}`;
 
     const PASSWORD_GENERATED = user.password;
     try {
@@ -32,7 +30,7 @@ export class MailService {
   }
 
   sendMailResetPassword(user: User, token: string) {
-    const url = `${this.config.get('MAIL_RESET_PASSEWORD_URL')}/${token}`;
+    const url = `${AppSettings.APP_URL}/reset-password/${token}`;
     this.mailService
       .sendMail({
         to: user.email,
