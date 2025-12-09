@@ -52,6 +52,8 @@ export class MailService {
         template: 'reset-password-confirm',
         context: {
           username: user.name,
+          APP_NAME: AppSettings.APP_NAME,
+          APP_SUPPORT_EMAIL: AppSettings.APP_SUPPORT_EMAIL,
         },
       })
       .finally();
