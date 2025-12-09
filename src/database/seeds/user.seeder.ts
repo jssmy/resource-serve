@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { config as dotenvConfig } from 'dotenv';
 import { Helper } from '@commons/classes/helper';
 import { Role } from '@roles/entities/role.entity';
 import { User } from '@user/entities/user.entity';
@@ -13,6 +14,9 @@ export default class UserSeeder implements Seeder {
     const repositoryRole = dataSource.getRepository(Role);
 
     const log = new Logger();
+    
+    // Cargar variables de .env explícitamente
+    dotenvConfig({ path: '.env' });
     const config = new ConfigService();
 
     const rootEmail = config.get('APP_USER_ROOT', 'root@mail.com');
