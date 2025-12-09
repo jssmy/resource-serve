@@ -13,7 +13,8 @@ export default class UserSeeder implements Seeder {
 
     const log = new Logger();
 
-    const userRoot = await repository.findOneBy({ email: 'root@mail.com' });
+    const rootEmail = process.env.APP_USER_ROOT || 'root@mail.com';
+    const userRoot = await repository.findOneBy({ email: rootEmail });
 
     if (userRoot) {
       log.warn('********************************************');
@@ -32,7 +33,7 @@ export default class UserSeeder implements Seeder {
     const user = new UserFactory({
       name: 'Root',
       surnames: 'Application',
-      email: 'root@mail.com',
+      email: rootEmail,
       password,
       roleId: 1,
     }).create();
