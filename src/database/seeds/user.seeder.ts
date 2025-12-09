@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Helper } from '@commons/classes/helper';
 import { Role } from '@roles/entities/role.entity';
 import { User } from '@user/entities/user.entity';
@@ -12,8 +13,9 @@ export default class UserSeeder implements Seeder {
     const repositoryRole = dataSource.getRepository(Role);
 
     const log = new Logger();
+    const config = new ConfigService();
 
-    const rootEmail = process.env.APP_USER_ROOT || 'root@mail.com';
+    const rootEmail = config.get('APP_USER_ROOT', 'root@mail.com');
     const userRoot = await repository.findOneBy({ email: rootEmail });
 
     if (userRoot) {
