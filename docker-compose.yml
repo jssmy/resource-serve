@@ -11,8 +11,8 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     volumes:
       - ~/volumes/mysql-resource-serve:/var/lib/mysql
     restart: always
@@ -22,8 +22,11 @@ services:
       context: .
       dockerfile: node.Dockerfile
     container_name: node-auth-container
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - default
+      - gateway-network
     restart: always
     environment:
       DB_USER: ${DB_USER}
@@ -52,3 +55,8 @@ services:
 
 volumes:
   auth-volume:
+
+networks:
+  gateway-network:
+    name: gateway-network
+    external: true
