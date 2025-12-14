@@ -68,7 +68,7 @@ export class UserService {
 
   async findWriter(id: string) {
     const user = await this.userRepository.findOne({
-      where: { id, role: { name: 'Writer' } },
+      where: { id },
       select: {
         name: true,
         surnames: true,
