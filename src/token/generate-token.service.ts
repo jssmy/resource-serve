@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '@user/entities/user.entity';
 import { AccessTokenPayload } from './interfaces/access-token.payload';
-import { Helper } from 'src/commons/classes/helper';
+import { Helper } from '@commons/classes/helper';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,7 +9,7 @@ import { AccessToken } from './entities/access-token.entity';
 import { Repository } from 'typeorm';
 import { RefreshTokenPayload } from './interfaces/refresh-token.payload';
 import { RefreshToken } from './entities/refresh-token.entity';
-import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { SuccessHandle } from '@commons/classes/success.handle';
 
 @Injectable()
 export class GenerateTokenService {

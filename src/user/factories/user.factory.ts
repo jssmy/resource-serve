@@ -1,4 +1,4 @@
-import { ByCript } from 'src/commons/classes/bycript';
+import { ByCript } from '@commons/classes/bycript';
 import { User } from '../entities/user.entity';
 import { RegisterUserDto } from '../dto/register-user.dto';
 

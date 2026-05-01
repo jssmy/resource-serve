@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { Role } from 'src/roles/entities/role.entity';
+import { Role } from '@roles/entities/role.entity';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
 

@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { SuccessHandle } from '@commons/classes/success.handle';
 
 @Injectable()
 export class UserService {
@@ -49,6 +49,24 @@ export class UserService {
   }
 
   async findOne(id: string) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      select: {
+        name: true,
+        surnames: true,
+        id: true,
+        avatars: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    return user;
+  }
+
+  async findWriter(id: string) {
     const user = await this.userRepository.findOne({
       where: { id },
       select: {

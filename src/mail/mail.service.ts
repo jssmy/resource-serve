@@ -1,8 +1,8 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'src/user/entities/user.entity';
-import { AppSettings } from 'src/commons/utils/app-settings.util';
+import { User } from '@user/entities/user.entity';
+import { AppSettings } from '@commons/utils/app-settings.util';
 
 @Injectable()
 export class MailService {
@@ -12,9 +12,7 @@ export class MailService {
   ) {}
 
   async sendMailAccountConfirmation(user: User, token: string) {
-    const URL_CONFIRMATION_ACCOUNT = `${this.config.get(
-      'MAIL_CONFIRM_URL',
-    )}/${token}`;
+    const URL_CONFIRMATION_ACCOUNT = `${AppSettings.APP_URL}/confirm-account/${token}`;
 
     const PASSWORD_GENERATED = user.password;
     try {
@@ -28,11 +26,11 @@ export class MailService {
           APP_NAME: AppSettings.APP_NAME,
         },
       });
-    } catch (e) {}
+    } catch (_e) {}
   }
 
   sendMailResetPassword(user: User, token: string) {
-    const url = `${this.config.get('MAIL_RESET_PASSEWORD_URL')}/${token}`;
+    const url = `${AppSettings.APP_URL}/reset-password/${token}`;
     this.mailService
       .sendMail({
         to: user.email,
@@ -41,6 +39,8 @@ export class MailService {
         context: {
           username: user.name,
           url,
+          APP_NAME: AppSettings.APP_NAME,
+          APP_SUPPORT_EMAIL: AppSettings.APP_SUPPORT_EMAIL,
         },
       })
       .finally();
@@ -54,6 +54,8 @@ export class MailService {
         template: 'reset-password-confirm',
         context: {
           username: user.name,
+          APP_NAME: AppSettings.APP_NAME,
+          APP_SUPPORT_EMAIL: AppSettings.APP_SUPPORT_EMAIL,
         },
       })
       .finally();

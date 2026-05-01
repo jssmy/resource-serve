@@ -18,7 +18,6 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { databaseConfiguration } from './config/database/db-auth.config';
 import { ControlAccessModule } from './control-access/control-access.module';
 import { CustomThrottlerGuard } from './commons/guards/throttler.guard';
-import { OriginGuard } from './commons/guards/origin.guard';
 
 @Module({
   imports: [
@@ -27,7 +26,9 @@ import { OriginGuard } from './commons/guards/origin.guard';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => databaseConfiguration(config),
+      useFactory: (config: ConfigService) => {
+        return databaseConfiguration(config);
+      },
     }),
     // Rate Limiting - Actualmente usando memoria
     // TODO: Migrar a Redis para producción con múltiples instancias
@@ -72,12 +73,6 @@ import { OriginGuard } from './commons/guards/origin.guard';
     {
       provide: APP_GUARD,
       useClass: CustomThrottlerGuard,
-    },
-    // Validación de origen global - solo permite requests de dominios permitidos
-    // Dominios permitidos: hardacodeando.com, bugzilo.com
-    {
-      provide: APP_GUARD,
-      useClass: OriginGuard,
     },
   ],
 })

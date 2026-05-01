@@ -4,7 +4,7 @@ import {
   ExecutionContext,
 } from '@nestjs/common';
 import { IncomingHttpHeaders } from 'http';
-import { trim } from 'src/commons/utils/string.util';
+import { trim } from '@commons/utils/string.util';
 
 export const GetRefererPath = createParamDecorator(
   (_data, ctx: ExecutionContext) => {

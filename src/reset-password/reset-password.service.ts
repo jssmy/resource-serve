@@ -7,17 +7,17 @@ import {
 } from '@nestjs/common';
 import { ResetPasswordRequestDto } from './dto/reset-password-request.tdo';
 import { Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '@user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResetPasswordFactory } from './factories/reset-password.factory';
 import { ConfigService } from '@nestjs/config';
 import { ResetPassword } from './entities/reset-password.entity';
-import { MailService } from 'src/mail/mail.service';
-import { SuccessHandle } from 'src/commons/classes/success.handle';
+import { MailService } from '@mail/mail.service';
+import { SuccessHandle } from '@commons/classes/success.handle';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { DateHelper } from 'src/commons/classes/date-helper';
-import { ByCript } from 'src/commons/classes/bycript';
-import { UserFactory } from 'src/user/factories/user.factory';
+import { DateHelper } from '@commons/classes/date-helper';
+import { ByCript } from '@commons/classes/bycript';
+import { UserFactory } from '@user/factories/user.factory';
 
 @Injectable()
 export class ResetPasswordService {

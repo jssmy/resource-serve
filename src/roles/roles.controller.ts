@@ -12,8 +12,8 @@ import {
 import { RolesService } from './roles.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { CheckPolicies } from 'src/commons/guards/check-policies';
-import { TypePermissions } from 'src/permissions/types/type-permissions.type';
+import { CheckPolicies } from '@commons/guards/check-policies';
+import { TypePermissions } from '@permissions/types/type-permissions.type';
 
 @Controller('roles')
 export class RolesController {

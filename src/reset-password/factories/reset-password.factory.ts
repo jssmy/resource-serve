@@ -1,7 +1,7 @@
-import { ByCript } from 'src/commons/classes/bycript';
+import { ByCript } from '@commons/classes/bycript';
 import { ResetPassword } from '../entities/reset-password.entity';
-import { Helper } from 'src/commons/classes/helper';
-import { DateHelper } from 'src/commons/classes/date-helper';
+import { Helper } from '@commons/classes/helper';
+import { DateHelper } from '@commons/classes/date-helper';
 
 export class ResetPasswordFactory {
   constructor(

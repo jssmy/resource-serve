@@ -8,7 +8,7 @@ import { RefreshToken } from '../entities/refresh-token.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccessToken } from '../entities/access-token.entity';
 import { Request } from 'express';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '@user/entities/user.entity';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConfirmAccountService } from 'src/confirm-account/confirm-account.service';
+import { ConfirmAccountService } from '@confirm-account/confirm-account.service';
 
 describe('ConfirmAccountService', () => {
   let service: ConfirmAccountService;

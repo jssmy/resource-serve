@@ -2,7 +2,7 @@ import { UseGuards, applyDecorators } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PolicyGuard } from './policy/policy.guard';
 import { SetPermissionType } from '../decorators/set-permission-type/set-permission-type.decorator';
-import { TypePermissions } from 'src/permissions/types/type-permissions.type';
+import { TypePermissions } from '@permissions/types/type-permissions.type';
 
 export function CheckPolicies(...type: TypePermissions[]) {
   return applyDecorators(

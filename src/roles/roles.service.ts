@@ -10,9 +10,9 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { In, Repository } from 'typeorm';
 import { Role } from './entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SuccessHandle } from 'src/commons/classes/success.handle';
-import { CreatedHandle } from 'src/commons/classes/created.handle';
-import { Permission } from 'src/permissions/entities/permission.entity';
+import { SuccessHandle } from '@commons/classes/success.handle';
+import { CreatedHandle } from '@commons/classes/created.handle';
+import { Permission } from '@permissions/entities/permission.entity';
 
 @Injectable()
 export class RolesService {

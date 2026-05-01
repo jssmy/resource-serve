@@ -4,13 +4,13 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { UserFactory } from 'src/user/factories/user.factory';
+import { User } from '@user/entities/user.entity';
+import { UserFactory } from '@user/factories/user.factory';
 import { Repository } from 'typeorm';
 import { ConfirmAccountService } from '../confirm-account/confirm-account.service';
-import { CreatedHandle } from 'src/commons/classes/created.handle';
-import { RegisterUserDto } from 'src/user/dto/register-user.dto';
-import { Password } from 'src/commons/utils/password.util';
+import { CreatedHandle } from '@commons/classes/created.handle';
+import { RegisterUserDto } from '@user/dto/register-user.dto';
+import { Password } from '@commons/utils/password.util';
 
 @Injectable()
 export class RegisterService {

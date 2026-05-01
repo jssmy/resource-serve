@@ -6,7 +6,7 @@ import {
   ApiSendResetPasswordMail,
   ApiResetPassword,
   ApiValidateResetPasswordToken,
-} from 'src/config/doc/reset-password/reset-password-api.decorator';
+} from '@config/doc/reset-password/reset-password-api.decorator';
 
 @Controller('password')
 export class ResetPasswordController {

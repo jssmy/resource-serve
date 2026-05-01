@@ -1,8 +1,8 @@
-import { Permission } from 'src/permissions/entities/permission.entity';
+import { Permission } from '@permissions/entities/permission.entity';
 import { DataSource, In } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
 import { permissionesFactories } from '../factories/permission.factory';
-import { Role } from 'src/roles/entities/role.entity';
+import { Role } from '@roles/entities/role.entity';
 
 export default class AsignPermissionsToRolesSeeder implements Seeder {
   public async run(dataSource: DataSource): Promise<any> {

@@ -1,6 +1,6 @@
-import { ByCript } from 'src/commons/classes/bycript';
-import { Helper } from 'src/commons/classes/helper';
-import { DateHelper } from 'src/commons/classes/date-helper';
+import { ByCript } from '@commons/classes/bycript';
+import { Helper } from '@commons/classes/helper';
+import { DateHelper } from '@commons/classes/date-helper';
 import { ConfirmAccount } from '../../confirm-account/entities/confirm-account.entity';
 
 export class ConfirmAccountFactory {

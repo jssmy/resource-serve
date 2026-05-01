@@ -1,9 +1,9 @@
 import { Matches, MaxLength, MinLength } from 'class-validator';
-import { passwordRegx } from 'src/commons/regx/password.regx';
+import { passwordRegx } from '@commons/regx/password.regx';
 import {
   ApiResetPasswordPasswordProperty,
   ApiResetPasswordConfirmPasswordProperty,
-} from 'src/config/doc/reset-password/reset-password-property.decorator';
+} from '@config/doc/reset-password/reset-password-property.decorator';
 
 export class ResetPasswordDto {
   @ApiResetPasswordPasswordProperty()

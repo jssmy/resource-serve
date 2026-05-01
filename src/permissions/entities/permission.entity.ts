@@ -10,8 +10,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { TypePermissions } from '../types/type-permissions.type';
-import { Role } from 'src/roles/entities/role.entity';
-import { HttpMethod } from 'src/commons/enums/http- methods';
+import { Role } from '@roles/entities/role.entity';
+import { HttpMethod } from '@commons/enums/http- methods';
 
 @Entity('permissions')
 export class Permission {

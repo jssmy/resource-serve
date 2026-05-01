@@ -1,6 +1,7 @@
 import { MailerAsyncOptions } from '@nestjs-modules/mailer/dist/interfaces/mailer-async-options.interface';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { AppSettings } from '@commons/utils/app-settings.util';
 
 export const mailConfig: MailerAsyncOptions = {
   imports: [ConfigModule],
@@ -9,8 +10,8 @@ export const mailConfig: MailerAsyncOptions = {
     const host = config.get('MAIL_HOST');
     const port = Number(config.get('MAIL_PORT') ?? 465);
     const secure = port === 465;
-    const mailFromName = config.get('MAIL_FROM_NAME');
-    const mainFromEmail = config.get('MAIL_FROM_ADDRESS');
+    const mailFromName = AppSettings.APP_NAME;
+    const mainFromEmail = AppSettings.APP_SUPPORT_EMAIL;
     const user = config.get('MAIL_USERNAME');
     const pass = config.get('MAIL_PASSWORD');
 

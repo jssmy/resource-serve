@@ -1,6 +1,6 @@
-import { HttpMethod } from 'src/commons/enums/http- methods';
-import { PermissionFactory } from 'src/permissions/fatories/permission.factory';
-import { TypePermissions } from 'src/permissions/types/type-permissions.type';
+import { HttpMethod } from '@commons/enums/http- methods';
+import { PermissionFactory } from '@permissions/fatories/permission.factory';
+import { TypePermissions } from '@permissions/types/type-permissions.type';
 
 export const permissionesFactories = [
   /*****************************************/
@@ -73,10 +73,20 @@ export const permissionesFactories = [
     method: HttpMethod.GET,
   }).create(),
 
+  // TODO: Migrar a nuevo sistema de paths - Unificar estas dos rutas en una sola
+  // Actualmente separadas porque NestJS 11 no soporta parámetros opcionales en rutas
+  // En el nuevo sistema se usará: 'permissions/parent/:id?'
   new PermissionFactory({
     name: 'Get all permission by parent permission',
     type: TypePermissions.API,
-    route: 'permissions/parent/:id?',
+    route: 'permissions/parent',
+    method: HttpMethod.GET,
+  }).create(),
+
+  new PermissionFactory({
+    name: 'Get all permission by parent permission with id',
+    type: TypePermissions.API,
+    route: 'permissions/parent/:id',
     method: HttpMethod.GET,
   }).create(),
 

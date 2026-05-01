@@ -1,19 +1,22 @@
 import { Logger } from '@nestjs/common';
-import { Helper } from 'src/commons/classes/helper';
-import { Role } from 'src/roles/entities/role.entity';
-import { User } from 'src/user/entities/user.entity';
-import { UserFactory } from 'src/user/factories/user.factory';
+import { Helper } from '@commons/classes/helper';
+import { Role } from '@roles/entities/role.entity';
+import { User } from '@user/entities/user.entity';
+import { UserFactory } from '@user/factories/user.factory';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
+import { ConfigService } from '@nestjs/config';
 
 export default class UserSeeder implements Seeder {
   public async run(dataSource: DataSource): Promise<any> {
+    const configService = new ConfigService();
+    const rootEmail = configService.get('APP_USER_ROOT') || 'root@mail.com';
     const repository = dataSource.getRepository(User);
     const repositoryRole = dataSource.getRepository(Role);
 
     const log = new Logger();
 
-    const userRoot = await repository.findOneBy({ email: 'root@mail.com' });
+    const userRoot = await repository.findOneBy({ email: rootEmail });
 
     if (userRoot) {
       log.warn('********************************************');
@@ -32,7 +35,7 @@ export default class UserSeeder implements Seeder {
     const user = new UserFactory({
       name: 'Root',
       surnames: 'Application',
-      email: 'root@mail.com',
+      email: rootEmail,
       password,
       roleId: 1,
     }).create();

@@ -1,4 +1,4 @@
-# compiled output
+# Compiled output
 /dist
 /node_modules
 
@@ -17,6 +17,7 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+/test
 
 # IDEs and editors
 /.idea
@@ -33,5 +34,26 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Git
+.git
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile
+*.Dockerfile
+docker-compose*.yml
+
+# Environment files
+.env
+.env.*
+env.example
+
+# Documentation
+README.md
+SWAGGER_DOCS.md
+
+# CI/CD
 .cpanel.yml
-.package-lock.json
+.github

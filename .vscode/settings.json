@@ -11,10 +11,24 @@
   "[javascript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+},
   "[json]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.watcherExclude": {
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/coverage/**": true,
+    "**/logs/**": true,
+    "**/.git/**": true
+  },
+  "files.exclude": {
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/coverage/**": true,
+    "**/logs/**": true,
+    "**/.git/**": true
   },
   "eslint.validate": [
     "javascript",
@@ -23,4 +37,5 @@
     "typescriptreact"
   ]
 }
+
 

@@ -1,4 +1,4 @@
-import { Permission } from 'src/permissions/entities/permission.entity';
+import { Permission } from '@permissions/entities/permission.entity';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
 import { permissionesFactories } from '../factories/permission.factory';
